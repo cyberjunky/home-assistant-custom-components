@@ -29,4 +29,4 @@ climate:
 
 ### Screenshot
 
-![alt text](https://github.com/cyberjunky/home-assistant-custom-components/screenshots/toon.png "Screenshot")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon.png "Screenshot")
