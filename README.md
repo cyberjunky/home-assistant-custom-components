@@ -29,4 +29,4 @@ climate:
 
 ### Screenshot
 
-![alt text](https://github.com/cyberjunky/ha-custom-components/screenshots/toon.png "Screenshot"
+![alt text](https://github.com/cyberjunky/ha-custom-components/screenshots/toon.png "Screenshot")
