@@ -6,9 +6,9 @@ configuration.yaml
 sensor:
   - platform: solarportal
     host: www.omnikportal.com
-    port: 10000 (optional)
-    username: portal_loginname
-    password: portal_password
+    port: 10000
+    username: PORTAL_LOGIN
+    password: PORTAL_PASSWORD
     scan_interval: 30
     resources:
       - actualpower

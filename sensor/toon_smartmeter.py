@@ -6,7 +6,7 @@ configuration.yaml
 
 sensor:
   - platform: toon_smartmeter
-    host: ip_address
+    host: IP_ADDRESS
     port: 10080
     scan_interval: 10
     resources:

@@ -6,11 +6,10 @@ configuration.yaml
 
 climate:
   - platform: toon
-    name: <Name of Toon> (default = 'Toon Thermostat')
-    host: <IP address of Toon>
-    port: <Port used by Toon> (default is 10080)
+    name: Toon Thermostat
+    host: IP ADDRESS
+    port: 10080
     scan_interval: 10
-
 """
 import voluptuous as vol
 import logging

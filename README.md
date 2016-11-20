@@ -4,7 +4,7 @@ Custom components for home-assistant (http://www.home-assistant.io)
 
 Part of small a POC, currently I am too lazy to integrate into upstream at the moment.
 
-## Climate/Toon Thermostat component
+## Toon Thermostat climate component
 
 NOTE: This component only works with rooted Toon devices.
 
@@ -13,47 +13,60 @@ More information can be found here: [Eneco Toon as Domotica controller](http://w
 It reads Toon's Mode, Current Temperature and it's Setpoint.
 You can also control the thermostat Mode and Setpoint (target temperature)
 
-### Install
+### Installation
 
-Copy file climate/toon.py to your ha_config_dir/custom-components/climate directory.
+- Copy file climate/toon.py to your ha_config_dir/custom-components/climate directory.
+- Configure with config below.
+- Restart Home-Assistant.
 
-Example of the Configuration:
+## Usage
+To use this component in your installation, add the following to your `configuration.yaml` file:
 
-```
-configuration.yaml
+```yaml
+# Example configuration.yaml entry
 
 climate:
   - platform: toon
-    name: <Name of your Toon> (default = 'Toon Thermostat')
-    host: <IP address of your Toon>
-    port: <Port used by your Toon> (default is 10080)
+    name: Toon Thermostat
+    host: IP ADDRESS
+    port: 10080
     scan_interval: 10
 ```
+
+Configuration variables:
+
+- **name** (*Optional*): Name of the device (default = 'Toon Thermostat')
+- **host** (*Required*): The hostname or IP address on which the Toon can be reached
+- **port** (*Optional*): Port used by your Toon (default = 10080)
+- **scan_interval** (*Optional*): Number of seconds between polls (default = 10)
 
 ### Screenshot
 
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon.png "Screenshot")
 
 
-## Toon Smart Meter component
+## Toon Smart Meter sensor component
 
 NOTE: This component only works with rooted Toon devices.
 
 It reads Smart Meter data from your Toon, gathered by the meteradapter.
 
-### Install
+### Installation
 
-Copy file sensor/toon_smartmeter.py to your ha_config_dir/custom-components/sensor directory.
+- Copy file sensor/toon_smartmeter.py to your ha_config_dir/custom-components/sensor directory.
+- Configure with config below.
+- Restart Home-Assistant.
 
-Example of the Configuration:
+## Usage
+To use this component in your installation, add the following to your `configuration.yaml` file:
 
-```
-configuration.yaml
+```yaml
+# Example configuration.yaml entry
 
 sensor:
   - platform: toon_smartmeter
-    host: <IP address of your Toon>
-    port: <Port used by your Toon> (default is 10080)
+    host: IP_ADDRESS
+    port: 10080
     scan_interval: 10
     resources:
       - gasused
@@ -68,13 +81,18 @@ sensor:
       - elecprodcnthigh
 ```
 
-The resources section tells the component which values to gather and display, you can leave out the prod values if your don't generate power.
+Configuration variables:
+
+- **host** (*Required*): The hostname or IP address on which the Toon can be reached
+- **port** (*Optional*): Port used by your Toon (default = 10080)
+- **scan_interval** (*Optional*): Number of seconds between polls (default = 10)
+- **resources** (*Required*): This section tells the component which values to display, you can leave out the prod values if your don't generate power.
 
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-badges.png "Toon SmartMeter Badges")
 
-If you want them grouped instead of having the separate sensor badges, you can use this in your groups.yaml:
+If you want them grouped instead of having the separate sensor badges, you can use this in your `groups.yaml`:
 
-```
+```yaml
 Smart meter:
   - sensor.p1_gas_used_last_hour
   - sensor.p1_gas_used_cnt
@@ -98,21 +116,24 @@ Smart meter:
 There are several solarpower portals storing you power generation data using the same api. So you can query the information uploaded by your solarpanels.
 I have a Omnik inverted and so I'm using it with omnikportal
 
-### Install
+### Installation
 
-Copy file sensor/solarportal.py to your ha_config_dir/custom-components/sensor directory.
+- Copy file sensor/solarportal.py to your ha_config_dir/custom-components/sensor directory.
+- Configure with config below
+- Restart Home-Assistant.
 
-Example of the Configuration:
+## Usage
+To use this component in your installation, add the following to your `configuration.yaml` file:
 
-```
-configuration.yaml
+```yaml
+#Example configuration.yaml entry
 
 sensor:
   - platform: solarportal
     host: www.omnikportal.com
     port: 10000
-    username: <Your portal username>
-    password: <Your portal password>
+    username: PORTAL_LOGIN
+    password: PORTAL_PASSWORD
     scan_interval: 30
     resources:
       - actualpower
@@ -122,20 +143,24 @@ sensor:
       - incometotal
 ```
 
-Supported portals for host entry:
-..* www.omnikportal.com
-..* www.ginlongmonitoring.com
-..* log.trannergy.com
-..* www.solarmanpv.com
+Configuration variables:
 
-
-The resources section tells the component which values to display.
+- **host** (*Required*): The website url of the portal to query for the list below
+ * [www.omnikportal.com](http://www.omnikportal.com)
+ * [www.ginlongmonitoring.com](http://www.ginlongmonitoring.com)
+ * [log.trannergy.com](http://log.trannergy.com)
+ * [www.solarmanpv.com](www.solarmanpv.com)
+- **port** (*Optional*): Port in use by the portal api (default = 10000)
+- **username** (*Required*): The login name for the website, normally this is an email address
+- **password** (*Required*): Your password for the website
+- **scan_interval** (*Optional*): Number of seconds between polls (default = 30)
+- **resources** (*Required*): This section tells the component which values to display
 
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal-badges.png "SolarPortal Badges")
 
-If you want them grouped instead of having the separate sensor badges, you can use this in your groups.yaml:
+If you want them grouped instead of having the separate sensor badges, you can use this in your `groups.yaml`:
 
-```
+```yaml
 OmnikPortal Solar:
   - sensor.solar_actual_power
   - sensor.solar_energy_today
@@ -151,3 +176,8 @@ OmnikPortal Solar:
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal-graph.png "Graph Actual Power")
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal-graph-income.png "Graph Total Income")
 
+
+## TODO
+- Implement better input checks.
+- Add error caching.
+- Make them async.
