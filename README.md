@@ -123,10 +123,10 @@ sensor:
 ```
 
 Supported portals for host entry:
-   www.omnikportal.com
-   www.ginlongmonitoring.com
-   log.trannergy.com
-   www.solarmanpv.com
+..* www.omnikportal.com
+..* www.ginlongmonitoring.com
+..* log.trannergy.com
+..* www.solarmanpv.com
 
 
 The resources section tells the component which values to display.
