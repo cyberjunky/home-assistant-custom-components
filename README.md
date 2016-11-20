@@ -111,10 +111,11 @@ Smart meter:
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter.png "Screenshot Toon SmartMeter")
 
 
-## SolarPortal component
+## SolarPortal sensor component
 
-There are several solarpower portals storing you power generation data using the same api. So you can query the information uploaded by your solarpanels.
-I have a Omnik inverted and so I'm using it with omnikportal
+There are several solarpower portals storing you power generation data using the same API.
+You can query the information uploaded by your solarpanels.
+I have a Omnik inverter and so I'm using it with omnikportal, only one I tested it with.
 
 ### Installation
 
@@ -169,9 +170,9 @@ OmnikPortal Solar:
   - sensor.solar_income_total
 ```
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal.png "Screenshot SolarPortal")
+### Screenshots
 
-### Some graphs
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal.png "Screenshot SolarPortal")
 
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal-graph.png "Graph Actual Power")
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal-graph-income.png "Graph Total Income")
