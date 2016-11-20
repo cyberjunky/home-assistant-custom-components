@@ -41,10 +41,12 @@ Configuration variables:
 - **port** (*Optional*): Port used by your Toon (default = 10080)
 - **scan_interval** (*Optional*): Number of seconds between polls (default = 10)
 
-### Screenshot
+### Screenshots
 
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon.png "Screenshot")
 
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-graph-gasused.png "Graph Gas Used")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-graph-poweruselow.png "Graph Power Use Low")
 
 ## Toon Smart Meter sensor component
 
