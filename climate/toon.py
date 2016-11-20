@@ -7,7 +7,7 @@ configuration.yaml
 climate:
   - platform: toon
     name: Toon Thermostat
-    host: IP ADDRESS
+    host: IP_ADDRESS
     port: 10080
     scan_interval: 10
 """

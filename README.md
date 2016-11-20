@@ -1,8 +1,9 @@
 # Home-Assistant Custom Components
 
-Custom components for home-assistant (http://www.home-assistant.io)
+Some of my custom components for home-assistant (http://www.home-assistant.io)
 
-Part of small a POC, currently I am too lazy to integrate into upstream at the moment.
+Part of small a Proof of Concept, currently I am too lazy to integrate into upstream at the moment.
+Still learning to program in python3 and how to make home-assistant components.
 
 ## Toon Thermostat climate component
 
@@ -28,7 +29,7 @@ To use this component in your installation, add the following to your `configura
 climate:
   - platform: toon
     name: Toon Thermostat
-    host: IP ADDRESS
+    host: IP_ADDRESS
     port: 10080
     scan_interval: 10
 ```
@@ -180,5 +181,5 @@ OmnikPortal Solar:
 
 ## TODO
 - Implement better input checks.
-- Add error caching.
-- Make them async.
+- Add more error handling.
+- Make the components work async.
