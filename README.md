@@ -2,7 +2,7 @@
 
 Some of my custom components for home-assistant (http://www.home-assistant.io)
 
-Part of small a Proof of Concept, currently I am too lazy to integrate into upstream at the moment.
+Part of a small Proof of Concept, currently I am too lazy to integrate into upstream at the moment.
 Still learning to program in python3 and how to make home-assistant components.
 
 ## Toon Thermostat climate component
@@ -41,12 +41,9 @@ Configuration variables:
 - **port** (*Optional*): Port used by your Toon (default = 10080)
 - **scan_interval** (*Optional*): Number of seconds between polls (default = 10)
 
-### Screenshots
+### Screenshot
 
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon.png "Screenshot")
-
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-graph-gasused.png "Graph Gas Used")
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-graph-poweruselow.png "Graph Power Use Low")
 
 ## Toon Smart Meter sensor component
 
@@ -109,9 +106,11 @@ Smart meter:
   - sensor.p1_power_use_high
 ```
 
-### Screenshot
+### Screenshots
 
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter.png "Screenshot Toon SmartMeter")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-graph-gasused.png "Graph Gas Used")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-graph-poweruselow.png "Graph Power Use Low")
 
 
 ## SolarPortal sensor component
