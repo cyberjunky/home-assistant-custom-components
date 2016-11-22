@@ -8,10 +8,12 @@ Still learning to program in python3 and how to make home-assistant components.
 ## Toon Thermostat climate component
 
 NOTE: This component only works with rooted Toon devices.
+Toon's are Thermostats sold by Eneco a Dutch energy company.
 
-More information can be found here: [Eneco Toon as Domotica controller](http://www.domoticaforum.eu/viewforum.php?f=87)
+More information about preparing for usage with this component can be found here:
+[Eneco Toon as Domotica controller](http://www.domoticaforum.eu/viewforum.php?f=87)
 
-It reads Toon's Mode, Current Temperature and it's Setpoint.
+This component reads the Thermostat Mode, Current Temperature and it's Setpoint.
 You can also control the thermostat Mode and Setpoint (target temperature)
 
 ### Installation
@@ -180,7 +182,37 @@ OmnikPortal Solar:
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal-graph-income.png "Graph Total Income")
 
 
-## TODO
+## Battefield1 Stats component
+
+I'm playing BF1 sometimes, and notices there was an bf1stats api available, so I wrote a small component to query and log the number of online players.
+I could have done this with a few rest sensor type sensors, but I didn't find out a way to calculate a total count this way, from all the different platform counters.
+So this is what this component does and combine them into one sensor.
+
+### Installation
+
+- Copy file sensor/bf1stats.py to your ha_config_dir/custom-components/sensor directory.
+- Configure with config below
+- Restart Home-Assistant.
+
+## Usage
+To use this component in your installation, add the following to your `configuration.yaml` file:
+
+```yaml
+#Example configuration.yaml entry
+
+sensor:
+  - platform: bf1stats
+```
+
+Configuration variables:
+
+- **None**
+
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/bf1stats-badge.png "BF1Stats Badge")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/bf1stats-graph.png "BF1Stats Graph")
+
+
+## TODO (for almost all components)
 - Implement better input checks.
 - Add more error handling.
 - Make the components work async.
