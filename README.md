@@ -154,7 +154,7 @@ Configuration variables:
  * [www.omnikportal.com](http://www.omnikportal.com)
  * [www.ginlongmonitoring.com](http://www.ginlongmonitoring.com)
  * [log.trannergy.com](http://log.trannergy.com)
- * [www.solarmanpv.com](www.solarmanpv.com)
+ * [www.solarmanpv.com](http://www.solarmanpv.com)
 - **port** (*Optional*): Port in use by the portal api (default = 10000)
 - **username** (*Required*): The login name for the website, normally this is an email address
 - **password** (*Required*): Your password for the website
@@ -212,7 +212,7 @@ Configuration variables:
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/bf1stats-graph.png "BF1Stats Graph")
 
 
-## TODO (for almost all components)
+## TODO
 - Implement better input checks.
 - Add more error handling.
 - Make the components work async.
