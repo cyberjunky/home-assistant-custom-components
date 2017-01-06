@@ -301,6 +301,46 @@ You can use the triggered event to send a push notification like this:
 
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/p2000-notify.png "Screenshot")
 
+
+## Fritzcaller notification example
+
+This is not a new component but an example automation config useable together with the fritzbox_callmonitor component.
+The example below will generate several messages depending on status of the event.
+
+```yaml
+# Example configuration.yaml entry
+
+- platform: fritzbox_callmonitor
+```
+
+```yaml
+# Example automation.yaml entry
+
+- alias: 'Phone Status'
+  trigger:
+    platform: state
+    entity_id: sensor.phone
+  action:
+    - service: notify.pushover
+      data:
+        title: "Phone"
+        message: >
+          {% if is_state( "sensor.phone", "ringing" ) %}
+            Ringing on incoming call from {{ states.sensor.phone.attributes.from }}.
+          {%-elif is_state( "sensor.phone", "talking" ) %}
+            Call answered.
+          {%-elif is_state( "sensor.phone", "dialing" ) %}
+            Calling {{ states.sensor.phone.attributes.to }} with {{ states.sensor.phone.attributes.device }}.
+          {%-elif is_state( "sensor.phone", "idle" ) %}
+            {% if states.sensor.phone.attributes.duration | int > 59 %}
+              Phone call ended, duration was {{ (float(states.sensor.phone.attributes.duration) / 60) | round }} Minute(s).
+            {% else %}
+              Phone call ended, duration was {{ states.sensor.phone.attributes.duration }} Second(s).
+            {% endif %}
+          {% endif %}
+```
+
+
 ## TODO
 - Implement better input checks.
 - Add more error handling.
