@@ -212,6 +212,91 @@ Configuration variables:
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/bf1stats-graph.png "BF1Stats Graph")
 
 
+## P2000 Emergency Services component
+
+This component queries the portal http://feeds.livep2000.nl every interval seconds, and check it's output against the parameters set in the config.
+It's only based on Dutch services.
+When matched service calls are found an event is triggered, which you can use in automation rule (example below)
+
+ 
+### Installation
+
+- Copy file p2000.py to your ha_config_dir/custom-components directory.
+- Configure with config below
+- Restart Home-Assistant.
+
+## Usage
+To use this component in your installation, add the following to your `configuration.yaml` file:
+
+```yaml
+#Example configuration.yaml entry
+
+p2000:
+    regios: 18
+    disciplines: 1,2,3
+    messages: 4
+    distance: 5000
+    interval: 30
+```
+
+Configuration variables:
+
+- **regios** (*Required*): You have to specify at least one, if you want more seperate them by commas
+ * 1 = Groningen
+ * 2 = Friesland
+ * 3 = Drenthe
+ * 4 = IJsselland
+ * 5 = Twente
+ * 6 = Noord en Oost Gelderland
+ * 7 = Gelderland Midden
+ * 8 = Gelderland Zuid
+ * 9 = Utrecht
+ * 10 = Noord Holland Noord
+ * 11 = Zaanstreek-Waterland
+ * 12 = Kennemerland
+ * 13 = Amsterdam-Amstelland
+ * 14 = Gooi en Vechtstreek
+ * 15 = Haaglanden
+ * 16 = Hollands Midden
+ * 17 = Rotterdam Rijnmond
+ * 18 = Zuid Holland Zuid
+ * 19 = Zeeland
+ * 20 = Midden- en West-Brabant
+ * 21 = Brabant Noord
+ * 22 = Brabant Zuid en Oost
+ * 23 = Limburg Noord
+ * 24 = Limburg Zuid
+ * 25 = Flevoland
+- **disciplines** (*Optional*): Disciplines to display, separate them by commas, the default displays all
+ * 1 = Brandweer
+ * 2 = Ambulance
+ * 3 = Politie
+ * 4 = KNRM
+- **messages** (*Optional*): The max number of messages to show, default = 5
+- **distance** (*Optional*): Only display on calls within this range in meters, it uses the lat/lon from your home-assistant.conf file as center, default = 5000
+- **interval** (*Optional*): Check every x minutes, default = 5
+
+It triggers only if new messages are different than the last.
+
+You can use the triggered event to send a push notification like this:
+```yaml
+#Example automation.yaml entry
+
+- alias: P2000 Notify
+  trigger:
+    platform: event
+    event_type: p2000
+  action:
+  - service_template: notify.pushover
+    data_template:
+      title: "P2000"
+      message: "{{ trigger.event.data.text }}"
+```
+
+### Screenshot
+
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/p2000-notify.png "Screenshot")
+
 ## TODO
 - Implement better input checks.
 - Add more error handling.

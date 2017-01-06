@@ -1,6 +1,8 @@
 """
 Support for getting information about BattleField 1 online player counts.
 
+For more details about this platform, please refer to the documentation at
+https://home-assistant.io/components/sensor.bf1stats/
 """
 import datetime
 import logging
@@ -47,7 +49,6 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     return False
 
 
-# pylint: disable=no-member
 class BF1StatsSensor(Entity):
     """Representation of a BF1Stats sensor."""
 
@@ -65,9 +66,11 @@ class BF1StatsSensor(Entity):
     def state(self):
         """Return the state of the device."""
         if self.rest.data:
-           return int(self.rest.data['pc']['count']) + int(self.rest.data['xone']['count']) + int(self.rest.data['ps4']['count'])
+            return int(self.rest.data['pc']['count'])\
+                + int(self.rest.data['xone']['count'])\
+                + int(self.rest.data['ps4']['count'])
         else:
-           return STATE_UNKNOWN
+            return STATE_UNKNOWN
 
     @property
     def device_state_attributes(self):
@@ -94,6 +97,7 @@ class BF1StatsSensor(Entity):
         self.rest.update()
 
 
+# pylint: disable=too-few-public-methods
 class BF1StatsData(object):
     """Get data from BF1Stats API."""
 
