@@ -1,6 +1,6 @@
 # Home-Assistant Custom Components
 
-Some of my custom components for home-assistant (http://www.home-assistant.io)
+Some of my custom components for home-assistant. (http://www.home-assistant.io)
 
 Part of a small Proof of Concept, currently I am too lazy to integrate into upstream at the moment.
 Still learning to program in python3 and how to make home-assistant components.
@@ -14,7 +14,7 @@ More information about preparing for usage with this component can be found here
 [Eneco Toon as Domotica controller](http://www.domoticaforum.eu/viewforum.php?f=87)
 
 This component reads the Thermostat Mode, Current Temperature and it's Setpoint.
-You can also control the thermostat Mode and Setpoint (target temperature)
+You can also control the thermostat Mode and Setpoint. (target temperature)
 
 ### Installation
 
@@ -38,10 +38,10 @@ climate:
 
 Configuration variables:
 
-- **name** (*Optional*): Name of the device (default = 'Toon Thermostat')
-- **host** (*Required*): The hostname or IP address on which the Toon can be reached
-- **port** (*Optional*): Port used by your Toon (default = 10080)
-- **scan_interval** (*Optional*): Number of seconds between polls (default = 10)
+- **name** (*Optional*): Name of the device. (default = 'Toon Thermostat')
+- **host** (*Required*): The hostname or IP address on which the Toon can be reached.
+- **port** (*Optional*): Port used by your Toon. (default = 10080)
+- **scan_interval** (*Optional*): Number of seconds between polls. (default = 10)
 
 ### Screenshot
 
@@ -85,9 +85,9 @@ sensor:
 
 Configuration variables:
 
-- **host** (*Required*): The hostname or IP address on which the Toon can be reached
-- **port** (*Optional*): Port used by your Toon (default = 10080)
-- **scan_interval** (*Optional*): Number of seconds between polls (default = 10)
+- **host** (*Required*): The hostname or IP address on which the Toon can be reached.
+- **port** (*Optional*): Port used by your Toon. (default = 10080)
+- **scan_interval** (*Optional*): Number of seconds between polls. (default = 10)
 - **resources** (*Required*): This section tells the component which values to display, you can leave out the prod values if your don't generate power.
 
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-badges.png "Toon SmartMeter Badges")
@@ -95,6 +95,8 @@ Configuration variables:
 If you want them grouped instead of having the separate sensor badges, you can use this in your `groups.yaml`:
 
 ```yaml
+# Example groups.yaml entry
+
 Smart meter:
   - sensor.p1_gas_used_last_hour
   - sensor.p1_gas_used_cnt
@@ -124,14 +126,14 @@ I have a Omnik inverter and so I'm using it with omnikportal, only one I tested 
 ### Installation
 
 - Copy file sensor/solarportal.py to your ha_config_dir/custom-components/sensor directory.
-- Configure with config below
+- Configure with config below.
 - Restart Home-Assistant.
 
 ## Usage
 To use this component in your installation, add the following to your `configuration.yaml` file:
 
 ```yaml
-#Example configuration.yaml entry
+# Example configuration.yaml entry
 
 sensor:
   - platform: solarportal
@@ -150,22 +152,24 @@ sensor:
 
 Configuration variables:
 
-- **host** (*Required*): The website url of the portal to query for the list below
+- **host** (*Required*): The website url of the portal to query for the list below.
  * [www.omnikportal.com](http://www.omnikportal.com)
  * [www.ginlongmonitoring.com](http://www.ginlongmonitoring.com)
  * [log.trannergy.com](http://log.trannergy.com)
  * [www.solarmanpv.com](http://www.solarmanpv.com)
-- **port** (*Optional*): Port in use by the portal api (default = 10000)
-- **username** (*Required*): The login name for the website, normally this is an email address
-- **password** (*Required*): Your password for the website
-- **scan_interval** (*Optional*): Number of seconds between polls (default = 30)
-- **resources** (*Required*): This section tells the component which values to display
+- **port** (*Optional*): Port in use by the portal API. (default = 10000)
+- **username** (*Required*): The login name for the website, normally this is an email address.
+- **password** (*Required*): Your password for the website.
+- **scan_interval** (*Optional*): Number of seconds between polls. (default = 30)
+- **resources** (*Required*): This section tells the component which values to display.
 
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal-badges.png "SolarPortal Badges")
 
 If you want them grouped instead of having the separate sensor badges, you can use this in your `groups.yaml`:
 
 ```yaml
+# Example groups.yaml entry
+
 OmnikPortal Solar:
   - sensor.solar_actual_power
   - sensor.solar_energy_today
@@ -191,14 +195,14 @@ So this is what this component does and combine them into one sensor.
 ### Installation
 
 - Copy file sensor/bf1stats.py to your ha_config_dir/custom-components/sensor directory.
-- Configure with config below
+- Configure with config below.
 - Restart Home-Assistant.
 
 ## Usage
 To use this component in your installation, add the following to your `configuration.yaml` file:
 
 ```yaml
-#Example configuration.yaml entry
+# Example configuration.yaml entry
 
 sensor:
   - platform: bf1stats
@@ -214,22 +218,22 @@ Configuration variables:
 
 ## P2000 Emergency Services component
 
-This component queries the portal http://feeds.livep2000.nl every interval seconds, and check it's output against the parameters set in the config.
+This component queries the portal http://feeds.livep2000.nl every interval minutes, and check it's output against the parameters set in the config.
 It's only based on Dutch services.
-When matched service calls are found an event is triggered, which you can use in automation rule (example below)
+When matched service calls are found an event is triggered, which you can use in automation rule. (see example below)
 
  
 ### Installation
 
 - Copy file p2000.py to your ha_config_dir/custom-components directory.
-- Configure with config below
+- Configure with config below.
 - Restart Home-Assistant.
 
 ## Usage
 To use this component in your installation, add the following to your `configuration.yaml` file:
 
 ```yaml
-#Example configuration.yaml entry
+# Example configuration.yaml entry
 
 p2000:
     regios: 18
@@ -241,7 +245,7 @@ p2000:
 
 Configuration variables:
 
-- **regios** (*Required*): You have to specify at least one, if you want more seperate them by commas
+- **regios** (*Required*): You have to specify at least one, if you want more seperate them by commas.
  * 1 = Groningen
  * 2 = Friesland
  * 3 = Drenthe
@@ -267,20 +271,20 @@ Configuration variables:
  * 23 = Limburg Noord
  * 24 = Limburg Zuid
  * 25 = Flevoland
-- **disciplines** (*Optional*): Disciplines to display, separate them by commas, the default displays all
+- **disciplines** (*Optional*): Disciplines to display, separate them by commas. (default = 1,2,3,4)
  * 1 = Brandweer
  * 2 = Ambulance
  * 3 = Politie
  * 4 = KNRM
-- **messages** (*Optional*): The max number of messages to show, default = 5
-- **distance** (*Optional*): Only display on calls within this range in meters, it uses the lat/lon from your home-assistant.conf file as center, default = 5000
-- **interval** (*Optional*): Check every x minutes, default = 5
+- **messages** (*Optional*): The max number of messages to show. (default = 5)
+- **distance** (*Optional*): Only display on calls within this range in meters, it uses the lat/lon from your home-assistant.conf file as center. (default = 5000)
+- **interval** (*Optional*): Check every x minutes. (default = 5)
 
 It triggers only if new messages are different than the last.
 
 You can use the triggered event to send a push notification like this:
 ```yaml
-#Example automation.yaml entry
+# Example automation.yaml entry
 
 - alias: P2000 Notify
   trigger:
