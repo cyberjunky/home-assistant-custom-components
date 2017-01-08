@@ -24,7 +24,7 @@ CONF_MESSAGES = 'messages'
 CONF_DISTANCE = 'distance'
 
 DEFAULT_DISCIPLINES = '1,2,3,4'
-DEFAULT_INTERVAL = 5
+DEFAULT_INTERVAL = 1
 DEFAULT_MESSAGES = 5
 DEFAULT_DISTANCE = 5000
 
@@ -76,14 +76,15 @@ class P2000Manager(object):
         self._maxdist = distance
 
         self._feed = None
-        self._feed_prev = None
+        self._msg = None
+        self._msg_prev = None
         self._hass = hass
 
         self._lat = latitude
         self._lon = longitude
 
         track_utc_time_change(hass, lambda now: self._update(),
-                             minute=range(1, 59, interval))
+                             minute=range(1, 59, interval), second=0)
 
 
     def _log_no_entries(self):
@@ -93,8 +94,7 @@ class P2000Manager(object):
 
     def _update(self):
         """Update the feed and publish new entries to the event bus."""
-        _LOGGER.debug('Fetching new data from feed "%s"', self._url)
-        self._feed_prev = self._feed
+        _LOGGER.info('Fetching new data from feed "%s"', self._url)
         self._feed = feedparser.parse(self._url,
                                       etag=None if not self._feed
                                       else self._feed.get('etag'),
@@ -102,16 +102,14 @@ class P2000Manager(object):
                                       else self._feed.get('modified'))
 
         if not self._feed:
-            _LOGGER.error('Error fetching feed data from "%s"', self._url)
-        elif self._feed == self._feed_prev:
-            _LOGGER.debug('Fetched data is the same as previous data.')
+            _LOGGER.info('Error fetching feed data from "%s"', self._url)
         else:
             if self._feed.bozo != 0:
-                _LOGGER.error('Error parsing feed "%s"', self._url)
+                _LOGGER.info('Error parsing feed "%s"', self._url)
             # Using etag and modified, if there's no new data available,
             # the entries list will be empty
             elif len(self._feed.entries) > 0:
-                _LOGGER.debug('%s entries available in feed "%s"',
+                _LOGGER.info('%s entries available in feed "%s"',
                               len(self._feed.entries),
                               self._url)
                 self._publish_new_entries()
@@ -129,6 +127,8 @@ class P2000Manager(object):
         lon2 = 0
         map = ''
         dist = 0
+
+        self._msg_prev = self._msg
 
         for item in self._feed.entries:
           if item.has_key('geo_lat'):
@@ -152,4 +152,9 @@ class P2000Manager(object):
           if msgno > self._maxmsgs:
             break
 
-        self._hass.bus.fire(EVENT_P2000, { ATTR_TEXT: ''.join(msglist) })
+        self._msg = ''.join(msglist)
+
+        if self._msg == self._msg_prev:
+          _LOGGER.info('Message is the same as previous, skipping.')
+        else:
+          self._hass.bus.fire(EVENT_P2000, { ATTR_TEXT: self._msg })

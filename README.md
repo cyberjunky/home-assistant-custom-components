@@ -18,7 +18,7 @@ You can also control the thermostat Mode and Setpoint. (target temperature)
 
 ### Installation
 
-- Copy file climate/toon.py to your ha_config_dir/custom-components/climate directory.
+- Copy file `climate/toon.py` to your `ha_config_dir/custom-components/climate` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -55,7 +55,7 @@ It reads Smart Meter data from your Toon, gathered by the meteradapter.
 
 ### Installation
 
-- Copy file sensor/toon_smartmeter.py to your ha_config_dir/custom-components/sensor directory.
+- Copy file `sensor/toon_smartmeter.py`s to your `ha_config_dir/custom-components/sensor` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -125,7 +125,7 @@ I have a Omnik inverter and so I'm using it with omnikportal, only one I tested 
 
 ### Installation
 
-- Copy file sensor/solarportal.py to your ha_config_dir/custom-components/sensor directory.
+- Copy file `sensor/solarportal.py` to your `ha_config_dir/custom-components/sensor` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -194,7 +194,7 @@ So this is what this component does and combine them into one sensor.
 
 ### Installation
 
-- Copy file sensor/bf1stats.py to your ha_config_dir/custom-components/sensor directory.
+- Copy file `sensor/bf1stats.py` to your `ha_config_dir/custom-components/sensor` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -225,7 +225,7 @@ When matched service calls are found an event is triggered, which you can use in
  
 ### Installation
 
-- Copy file p2000.py to your ha_config_dir/custom-components directory.
+- Copy file `p2000.py` to your `ha_config_dir/custom-components` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -302,7 +302,7 @@ You can use the triggered event to send a push notification like this:
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/p2000-notify.png "Screenshot")
 
 
-## Fritzcaller notification example
+## Fritzbox_callmonitor Notification example
 
 This is not a new component but an example automation config useable together with the fritzbox_callmonitor component.
 The example below will generate several messages depending on status of the event.
@@ -326,7 +326,11 @@ The example below will generate several messages depending on status of the even
         title: "Phone"
         message: >
           {% if is_state( "sensor.phone", "ringing" ) %}
-            Ringing on incoming call from {{ states.sensor.phone.attributes.from }}.
+            {% if states.sensor.phone.attributes.from %}
+              Ringing on incoming call from {{ states.sensor.phone.attributes.from }}.
+            {% else %}
+              Ringing on incoming call from an Unknown or Hidden number.
+            {% endif %}
           {%-elif is_state( "sensor.phone", "talking" ) %}
             Call answered.
           {%-elif is_state( "sensor.phone", "dialing" ) %}
@@ -338,6 +342,67 @@ The example below will generate several messages depending on status of the even
               Phone call ended, duration was {{ states.sensor.phone.attributes.duration }} Second(s).
             {% endif %}
           {% endif %}
+```
+
+
+## Remarks component
+
+This component fetches random tags from files to be tweeted.
+The data files are taken from misterhouse, so al courtesy goes to that project.
+Currently there are two types of remarks implemented, random daily one taken from file specified in config.
+And outside temperature based.
+
+### Installation
+
+- Copy file `remarks.py` to your `ha_config_dir/custom-components` directory.
+- Copy the data directory `remarks` to your `ha_config_dir` directory.
+- Configure with config below.
+- Restart Home-Assistant.
+
+## Usage
+To use this component in your installation, add the following to your `configuration.yaml` file:
+
+```yaml
+# Example configuration.yaml entry
+
+remarks:
+   file: 1100tags.txt
+   hour: 9
+   minute: 0
+   outside_temp_sensor: sensor.pws_temp_c
+   cold_threshold: 15
+   freeze_threshold: 4
+   temp_hour: 6
+   temp_minute: 30
+```
+
+Configuration variables:
+
+- **file** (*Optional*): The file we want to pick a random tag from, one from the `remarks` directory. (default = 1100tags.txt)
+- **hour** (*Optional*): The hour on which we want to generate a random tag. (default = 9)
+- **minute** (*Optional*): The minute on which we want to generate a random tag. (default = 0)
+- **outside_temp_sensor** (*Optional*): Sensor device to use to get the outside temperature. (default = sensor.pws_temp_c)
+- **cold_threshold** (*Optional*): Below this temperature a tag will be picked from the `list_temp_below_20.txt`. (default = 15)
+- **freeze_threshold** (*Optional*): Below this temperature a tag will be picked from the file `list_temp_below_0.txt`. (default = 4)
+- **temp_hour** (*Optional*): The hour on which we want to generate a temperature remark if it is below thresholds. (default = 6)
+- **temp_minute** (*Optional*): The minute on which we want to generate a temperature remark. (default = 30)
+
+Now for both tags an event will be fired.
+
+You can trigger on this with automation rules.
+For example you can send them as tweets, to do so place this in your `automation.yaml`
+
+```yaml
+# Example automation.yaml entry
+
+- alias: Tweeting Remarks
+  trigger:
+    platform: event
+    event_type: remarks
+  action:
+  - service_template: notify.twitter
+    data_template:
+      message: "{{ trigger.event.data.text }}"
 ```
 
 
