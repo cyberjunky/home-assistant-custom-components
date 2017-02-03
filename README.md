@@ -224,7 +224,12 @@ When matched service calls are found an event is triggered, which you can use in
 
  
 ### Installation
+- Install required python libraries
 
+```
+$ pip3 install gpxpy
+$ pip3 install feedparser
+```
 - Copy file `p2000.py` to your `ha_config_dir/custom-components` directory.
 - Configure with config below.
 - Restart Home-Assistant.
