@@ -41,7 +41,7 @@ Configuration variables:
 - **name** (*Optional*): Name of the device. (default = 'Toon Thermostat')
 - **host** (*Required*): The hostname or IP address on which the Toon can be reached.
 - **port** (*Optional*): Port used by your Toon. (default = 10080)
-- **scan_interval** (*Optional*): Number of seconds between polls. (default = 10)
+- **scan_interval** (*Optional*): Number of seconds between polls. (default = 60)
 
 ### Screenshot
 
@@ -243,7 +243,6 @@ To use this component in your installation, add the following to your `configura
 p2000:
     regios: 18
     disciplines: 1,2,3
-    messages: 4
     distance: 5000
     interval: 30
 ```
@@ -281,11 +280,10 @@ Configuration variables:
  * 2 = Ambulance
  * 3 = Politie
  * 4 = KNRM
-- **messages** (*Optional*): The max number of messages to show. (default = 5)
 - **distance** (*Optional*): Only display on calls within this range in meters, it uses the lat/lon from your home-assistant.conf file as center. (default = 5000)
 - **interval** (*Optional*): Check every x minutes. (default = 5)
 
-It triggers only if new messages are different than the last.
+It triggers only on new messages, at a home-assistant restart, old messages are skipped.
 
 You can use the triggered event to send a push notification like this:
 ```yaml
