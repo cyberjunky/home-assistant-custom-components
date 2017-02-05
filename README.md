@@ -409,19 +409,16 @@ For example you can send them as tweets, to do so place this in your `automation
 ```
 
 
-## arp-scan Device tracker component
+## arp-scan Device Tracker component
 
 This component tracks devices using the arp-scan command, it's very fast, and reasonably accurate.
 
 ### Installation
 
 - Copy file `device_tracker/arpscan_tracker.py` to your `ha_config_dir/custom-components/device_tracker` directory.
-- Install the arp-scan command
+- Install the arp-scan command and set it's sticky bit, so it can be run as root.
 ```
 $ sudo apt-get install arp-scan
-```
-- Set it's sticky bit so it can be run as root (needed)
-```
 $ sudo chmod +s /usr/bin/arp-scan
 ```
 - Configure with config below.
@@ -445,11 +442,11 @@ device_tracker:
 
 Configuration variables:
 
-- **interval_seconds** (*Optional) Seconds between each scan for new devices. (default = 12)
+- **interval_seconds** (*Optional*) Seconds between each scan for new devices. (default = 12)
 - **consider_home** (*Optional*): Seconds to marking device as 'not home' after not being seen (default = 180)
 - **track_new_device** (*Optional*): If new discovered devices are tracked by default. (default = True)
 - **exclude** (*Optional*): List of IP addresses to skip tracking for.
-- **scan_options** (*Optional*): Configurable scan options for arp-scan. (defaults = -l -g -t1 -q)
+- **scan_options** (*Optional*): Configurable scan options for arp-scan. (default is `-l -g -t1 -q`)
 
 
 ## TODO
