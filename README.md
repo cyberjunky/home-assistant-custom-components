@@ -373,8 +373,8 @@ remarks:
    hour: 9
    minute: 0
    outside_temp_sensor: sensor.pws_temp_c
-   cold_threshold: 15
-   freeze_threshold: 4
+   cold_threshold: 5
+   freeze_threshold: -5
    temp_hour: 6
    temp_minute: 30
 ```
@@ -385,8 +385,8 @@ Configuration variables:
 - **hour** (*Optional*): The hour on which we want to generate a random tag. (default = 9)
 - **minute** (*Optional*): The minute on which we want to generate a random tag. (default = 0)
 - **outside_temp_sensor** (*Optional*): Sensor device to use to get the outside temperature. (default = sensor.pws_temp_c)
-- **cold_threshold** (*Optional*): Below this temperature a tag will be picked from the `list_temp_below_20.txt`. (default = 15)
-- **freeze_threshold** (*Optional*): Below this temperature a tag will be picked from the file `list_temp_below_0.txt`. (default = 4)
+- **cold_threshold** (*Optional*): Below this temperature a tag will be picked from the `list_temp_below_20.txt`. (default = 5)
+- **freeze_threshold** (*Optional*): Below this temperature a tag will be picked from the file `list_temp_below_0.txt`. (default = -5)
 - **temp_hour** (*Optional*): The hour on which we want to generate a temperature remark if it is below thresholds. (default = 6)
 - **temp_minute** (*Optional*): The minute on which we want to generate a temperature remark. (default = 30)
 
@@ -407,6 +407,49 @@ For example you can send them as tweets, to do so place this in your `automation
     data_template:
       message: "{{ trigger.event.data.text }}"
 ```
+
+
+## arp-scan Device tracker component
+
+This component tracks devices using the arp-scan command, it's very fast, and reasonably accurate.
+
+### Installation
+
+- Copy file `device_tracker/arpscan_tracker.py` to your `ha_config_dir/custom-components/device_tracker` directory.
+- Install the arp-scan command
+```
+$ sudo apt-get install arp-scan
+```
+- Set it's sticky bit so it can be run as root (needed)
+```
+$ sudo chmod +s /usr/bin/arp-scan
+```
+- Configure with config below.
+- Restart Home-Assistant.
+
+## Usage
+To use this component in your installation, add the following to your `configuration.yaml` file:
+
+```yaml
+# Example configuration.yaml entry
+
+device_tracker:
+  - platform: arpscan_tracker
+    interval_seconds: 15
+    consider_home: 60
+    track_new_devices: true
+    exclude:
+      - 192.168.178.1
+      - 192.168.178.3
+```
+
+Configuration variables:
+
+- **interval_seconds** (*Optional) Seconds between each scan for new devices. (default = 12)
+- **consider_home** (*Optional*): Seconds to marking device as 'not home' after not being seen (default = 180)
+- **track_new_device** (*Optional*): If new discovered devices are tracked by default. (default = True)
+- **exclude** (*Optional*): List of IP addresses to skip tracking for.
+- **scan_options** (*Optional*): Configurable scan options for arp-scan. (defaults = -l -g -t1 -q)
 
 
 ## TODO
