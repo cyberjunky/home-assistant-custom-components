@@ -4,7 +4,7 @@ Support for getting information about BattleField 1 online player counts.
 For more details about this platform, please refer to the documentation at
 https://home-assistant.io/components/sensor.bf1stats/
 """
-import datetime
+from datetime import timedelta
 import logging
 import requests
 
@@ -26,7 +26,7 @@ DEFAULT_NAME = 'Battlefield 1 Stats'
 ICON = 'mdi:gamepad-variant'
 UNIT = 'Players'
 
-MIN_TIME_BETWEEN_UPDATES = datetime.timedelta(seconds=30)
+MIN_TIME_BETWEEN_UPDATES = timedelta(seconds=30)
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
@@ -36,26 +36,24 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 # pylint: disable=unused-argument
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Set up the BF1Stats sensor."""
-    rest = BF1StatsData(hass)
+    data = BF1StatsData(hass)
     name = config.get(CONF_NAME)
 
     try:
-        rest.update()
-    except ValueError as err:
-        _LOGGER.error("Received error from BF1Stats: %s", err)
+        data.update()
+    except RunTimeError:
+        _LOGGER.error("Unable to connect fetch BF1Stats data: %s")
         return False
 
-    add_devices([BF1StatsSensor(rest, name)])
-
-    return False
+    add_devices([BF1StatsSensor(data, name)])
 
 
 class BF1StatsSensor(Entity):
     """Representation of a BF1Stats sensor."""
 
-    def __init__(self, rest, name):
+    def __init__(self, data, name):
         """Initialize a BF1Stats sensor."""
-        self.rest = rest
+        self.data = data
         self._name = name
 
     @property
@@ -66,10 +64,10 @@ class BF1StatsSensor(Entity):
     @property
     def state(self):
         """Return the state of the device."""
-        if self.rest.data:
-            return int(self.rest.data['pc']['count'])\
-                + int(self.rest.data['xone']['count'])\
-                + int(self.rest.data['ps4']['count'])
+        if self.data.data:
+            return int(self.data.data['pc']['count'])\
+                + int(self.data.data['xone']['count'])\
+                + int(self.data.data['ps4']['count'])
         else:
             return STATE_UNKNOWN
 
@@ -77,9 +75,9 @@ class BF1StatsSensor(Entity):
     def device_state_attributes(self):
         """Return the state attributes of this device."""
         attr = {}
-        attr['PC'] = int(self.rest.data['pc']['count'])
-        attr['XBOX'] = int(self.rest.data['xone']['count'])
-        attr['PS4'] = int(self.rest.data['ps4']['count'])
+        attr['PC'] = int(self.data.data['pc']['count'])
+        attr['XBOX'] = int(self.data.data['xone']['count'])
+        attr['PS4'] = int(self.data.data['ps4']['count'])
         attr[ATTR_ATTRIBUTION] = CONF_ATTRIBUTION
         return attr
 
@@ -95,7 +93,7 @@ class BF1StatsSensor(Entity):
 
     def update(self):
         """Update current values."""
-        self.rest.update()
+        self.data.update()
 
 
 # pylint: disable=too-few-public-methods
@@ -112,6 +110,7 @@ class BF1StatsData(object):
         """Get the latest data from BF1Stats API."""
         try:
             self.data = requests.get(_RESOURCE, timeout=10).json()
+            _LOGGER.debug("Data = %s", self.data)
         except ValueError as err:
             _LOGGER.error("Check BF1Stats %s", err.args)
             self.data = None

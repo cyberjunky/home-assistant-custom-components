@@ -22,20 +22,22 @@ sensor:
       - elecprodcnthigh
 """
 import logging
+from datetime import timedelta
+import requests
 import voluptuous as vol
 
 from homeassistant.components.sensor import PLATFORM_SCHEMA
 import homeassistant.helpers.config_validation as cv
 from homeassistant.const import (
     CONF_HOST, CONF_PORT, CONF_SCAN_INTERVAL, CONF_RESOURCES)
+from homeassistant.util import Throttle
 from homeassistant.helpers.entity import Entity
-
-from urllib.request import urlopen
-import json
 
 _LOGGER = logging.getLogger(__name__)
 
 BASE_URL = 'http://{0}:{1}{2}'
+MIN_TIME_BETWEEN_UPDATES = timedelta(seconds=10)
+
 SENSOR_PREFIX = 'P1 '
 
 SENSOR_TYPES = {
@@ -67,8 +69,8 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
 
     try:
         data = ToonData(host, port)
-    except RunTimeError:
-        _LOGGER.error("Unable to connect fetch Toon data from %s:%s", host, port)
+    except requests.exceptions.HTTPError as error:
+        _LOGGER.error(error)
         return False
 
     entities = []
@@ -95,20 +97,16 @@ class ToonData(object):
         self._port = port
         self.data = None
 
-    def get_json_data(self, url):
-        response = urlopen(url)
-        data = response.read().decode("utf-8")
-        return json.loads(data)
-
-    @property
-    def should_poll(self):
-        """Polling needed for thermostat."""
-        return True
-
+    @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
         """Update the data from the thermostat."""
-        self.data = self.get_json_data(BASE_URL.format(self._host, self._port, '/hdrv_zwave?action=getDevices.json'))
-#        _LOGGER.info("toondata %s", self.data)
+        try:
+            self.data = requests.get(BASE_URL.format(self._host, self._port, '/hdrv_zwave?action=getDevices.json'), timeout=5).json()
+            _LOGGER.debug("Data = %s", self.data)
+        except requests.exceptions.RequestException:
+            _LOGGER.error("Error occurred while fetching data.")
+            self.data = None
+            return False
 
  
 class ToonSmartMeterSensor(Entity):
@@ -118,8 +116,9 @@ class ToonSmartMeterSensor(Entity):
         """Initialize the sensor."""
         self.data = data
         self.type = sensor_type
-        self._name = SENSOR_PREFIX + SENSOR_TYPES[sensor_type][0]
-        self._unit = SENSOR_TYPES[sensor_type][1]
+        self._name = SENSOR_PREFIX + SENSOR_TYPES[self.type][0]
+        self._unit = SENSOR_TYPES[self.type][1]
+        self._icon = SENSOR_TYPES[self.type][2]
         self._state = None
 
     @property
@@ -130,7 +129,7 @@ class ToonSmartMeterSensor(Entity):
     @property
     def icon(self):
         """Icon to use in the frontend, if any."""
-        return SENSOR_TYPES[self.type][2]
+        return self._icon
 
     @property
     def state(self):
@@ -145,31 +144,29 @@ class ToonSmartMeterSensor(Entity):
     def update(self):
         """Get the latest data and use it to update our sensor state."""
         self.data.update()
-        json_data = self.data.data
+        energy = self.data.data
 
         if self.type == 'gasused':
-            self._state = float(json_data["dev_3.1"]["CurrentGasFlow"])/100
+            self._state = float(energy["dev_3.1"]["CurrentGasFlow"])/100
         elif self.type == 'gasusedcnt':
-            self._state = float(json_data["dev_3.1"]["CurrentGasQuantity"])/1000
+            self._state = float(energy["dev_3.1"]["CurrentGasQuantity"])/1000
 
         elif self.type == 'elecusageflowlow':
-            self._state = json_data["dev_3.5"]["CurrentElectricityFlow"]
+            self._state = energy["dev_3.5"]["CurrentElectricityFlow"]
         elif self.type == 'elecusagecntlow':
-            self._state = float(json_data["dev_3.5"]["CurrentElectricityQuantity"])/1000
+            self._state = float(energy["dev_3.5"]["CurrentElectricityQuantity"])/1000
 
         elif self.type == 'elecusageflowhigh':
-            self._state = json_data["dev_3.3"]["CurrentElectricityFlow"]
+            self._state = energy["dev_3.3"]["CurrentElectricityFlow"]
         elif self.type == 'elecusagecnthigh':
-            self._state = float(json_data["dev_3.3"]["CurrentElectricityQuantity"])/1000
+            self._state = float(energy["dev_3.3"]["CurrentElectricityQuantity"])/1000
 
         elif self.type == 'elecprodflowlow':
-            self._state = json_data["dev_3.6"]["CurrentElectricityFlow"]
+            self._state = energy["dev_3.6"]["CurrentElectricityFlow"]
         elif self.type == 'elecprodcntlow':
-            self._state = float(json_data["dev_3.6"]["CurrentElectricityQuantity"])/1000
+            self._state = float(energy["dev_3.6"]["CurrentElectricityQuantity"])/1000
 
         elif self.type == 'elecprodflowhigh':
-            self._state = json_data["dev_3.4"]["CurrentElectricityFlow"]
+            self._state = energy["dev_3.4"]["CurrentElectricityFlow"]
         elif self.type == 'elecprodcnthigh':
-            self._state = float(json_data["dev_3.4"]["CurrentElectricityQuantity"])/1000
-#        _LOGGER.info("toondata %s", self.data)
-
+            self._state = float(energy["dev_3.4"]["CurrentElectricityQuantity"])/1000

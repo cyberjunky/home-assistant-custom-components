@@ -18,21 +18,25 @@ sensor:
       - incometotal
 """
 import logging
+from datetime import timedelta
 import voluptuous as vol
-
-from homeassistant.components.sensor import PLATFORM_SCHEMA
-import homeassistant.helpers.config_validation as cv
-from homeassistant.const import (
-    CONF_USERNAME, CONF_PASSWORD, CONF_HOST, CONF_PORT, CONF_SCAN_INTERVAL, CONF_RESOURCES)
-from homeassistant.helpers.entity import Entity
-
 from urllib.request import urlopen
 from xml.etree import ElementTree as ET
 import hashlib
 
+from homeassistant.components.sensor import PLATFORM_SCHEMA
+import homeassistant.helpers.config_validation as cv
+from homeassistant.const import (
+        CONF_USERNAME, CONF_PASSWORD, CONF_HOST, CONF_PORT,
+        CONF_RESOURCES
+    )
+from homeassistant.util import Throttle
+from homeassistant.helpers.entity import Entity
+
 _LOGGER = logging.getLogger(__name__)
 
 BASE_URL = 'http://{0}:{1}{2}'
+MIN_TIME_BETWEEN_UPDATES = timedelta(seconds=30)
 
 SENSOR_PREFIX = 'Solar '
 SENSOR_TYPES = {
@@ -55,16 +59,16 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def setup_platform(hass, config, add_entities, discovery_info=None):
     """Setup the Solar Portal sensors."""
-    scan_interval = config.get(CONF_SCAN_INTERVAL)
     host = config.get(CONF_HOST)
     port = config.get(CONF_PORT)
     username = config.get(CONF_USERNAME)
     password = config.get(CONF_PASSWORD)
 
     try:
-        data = SolarPortalData (host, port, username, password)
+        data = SolarPortalData(host, port, username, password)
     except RunTimeError:
-        _LOGGER.error("Unable to connect fetch data from Solar Portal %s:%s", portal)
+        _LOGGER.error("Unable to connect fetch data from Solar Portal %s:%s",
+                      host, port)
         return False
 
     entities = []
@@ -98,29 +102,39 @@ class SolarPortalData(object):
         pwhash = mdhash.hexdigest()
 
         # get token
-        requesturl = BASE_URL.format(self._host, self._port, '/serverapi/?method=Login&username='+self._username+'&password='+pwhash+'&key=apitest&client=iPhone')
+        requesturl = BASE_URL.format(
+                   self._host, self._port,
+                   '/serverapi/?method=Login&username='
+                   + self._username + '&password=' + pwhash +
+                   '&key=apitest&client=iPhone'
+        )
         root = ET.parse(urlopen(requesturl)).getroot()
         self.token = root.find('token').text
 
         # get (only first) station
-        stationlisturl = BASE_URL.format(self._host, self._port, '/serverapi/?method=Powerstationslist&username='+self._username+'&token='+self.token+'&key=apitest')
+        stationlisturl = BASE_URL.format(
+                    self._host, self._port,
+                    '/serverapi/?method=Powerstationslist&username='
+                    + self._username + '&token=' + self.token + '&key=apitest'
+        )
 
         stationroot = ET.parse(urlopen(stationlisturl)).getroot()
         for elem in stationroot.findall('power'):
             self.stationid = elem.find('stationID').text
 
-
-    @property
-    def should_poll(self):
-        """Polling needed for portal."""
-        return True
-
+    @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
         """Update the data from the portal."""
-        dataurl = BASE_URL.format(self._host, self._port, '/serverapi/?method=Data&username='+self._username+'&stationid='+str(self.stationid)+'&token='+self.token+'&key=apitest')
+        dataurl = BASE_URL.format(
+                self._host, self._port,
+                '/serverapi/?method=Data&username=' + self._username +
+                '&stationid=' + str(self.stationid) + '&token=' +
+                self.token + '&key=apitest'
+        )
         self.data = ET.parse(urlopen(dataurl)).getroot()
+        _LOGGER.debug("Data = %s", self.data)
 
- 
+
 class SolarPortalSensor(Entity):
     """Representation of a SolarPortal sensor from the portal."""
 
@@ -128,9 +142,11 @@ class SolarPortalSensor(Entity):
         """Initialize the sensor."""
         self.data = data
         self.type = sensor_type
-        self._name = SENSOR_PREFIX + SENSOR_TYPES[sensor_type][0]
-        self._unit = SENSOR_TYPES[sensor_type][1]
+        self._name = SENSOR_PREFIX + SENSOR_TYPES[self.type][0]
+        self._unit_of_measurement = SENSOR_TYPES[self.type][1]
+        self._icon = SENSOR_TYPES[self.type][2]
         self._state = None
+        self.update()
 
     @property
     def name(self):
@@ -140,25 +156,23 @@ class SolarPortalSensor(Entity):
     @property
     def icon(self):
         """Icon to use in the frontend, if any."""
-        return SENSOR_TYPES[self.type][2]
+        return self._icon
 
     @property
     def state(self):
-        """Return the state of the sensor. (total/current power consumption/production or total gas used)"""
+        """Return the state of the sensor."""
         return self._state
 
     @property
     def unit_of_measurement(self):
         """Return the unit of measurement of this entity, if any."""
-        return self._unit
+        return self._unit_of_measurement
 
     def update(self):
         """Get the latest data and use it to update our sensor state."""
         self.data.update()
-        xml_data = self.data.data
-#        _LOGGER.info("xml_data %s", xml_data)
 
-        income = xml_data.find('income')
+        income = self.data.data.find('income')
         if self.type == 'actualpower':
             self._state = income.find('ActualPower').text
         elif self.type == 'energytoday':
