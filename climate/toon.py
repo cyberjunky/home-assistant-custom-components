@@ -75,6 +75,10 @@ class Thermostat(ClimateDevice):
             _LOGGER.exception("Error doing API request")
         else:
             _LOGGER.debug("API request ok %d", req.status_code)
+        
+        """Fixes invalid JSON output by TOON"""
+        reqinvalid = req.text
+        reqvalid = reqinvalid.replace('",}', '"}')
 
         return json.loads(req.text)
 
