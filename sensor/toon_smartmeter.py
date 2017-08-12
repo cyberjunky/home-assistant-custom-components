@@ -2,6 +2,9 @@
 Support for reading SmartMeter data through Eneco's Toon thermostats.
 Only works for rooted Toon.
 
+Modify the dev_3.X at the end of the document to your needs. 
+This differs per type of meteradapter. Newer types are dev_3.X older are dev_2.X.
+
 configuration.yaml
 
 sensor:
@@ -12,6 +15,8 @@ sensor:
     resources:
       - gasused
       - gasusedcnt
+      - elecusageflowpulse
+      - elecusagecntpulse
       - elecusageflowlow
       - elecusagecntlow
       - elecusageflowhigh
@@ -38,19 +43,21 @@ _LOGGER = logging.getLogger(__name__)
 BASE_URL = 'http://{0}:{1}{2}'
 MIN_TIME_BETWEEN_UPDATES = timedelta(seconds=10)
 
-SENSOR_PREFIX = 'P1 '
+SENSOR_PREFIX = 'Toon '
 
 SENSOR_TYPES = {
     'gasused': ['Gas Used Last Hour', 'm3', 'mdi:fire'],
     'gasusedcnt': ['Gas Used Cnt', 'm3', 'mdi:fire'],
-    'elecusageflowlow': ['Power Use Low', 'Watt', 'mdi:flash'],
-    'elecusageflowhigh': ['Power Use High', 'Watt', 'mdi:flash'],
-    'elecprodflowlow': ['Power Prod Low', 'Watt', 'mdi:flash'],
-    'elecprodflowhigh': ['Power Prod High', 'Watt', 'mdi:flash'],
-    'elecusagecntlow': ['Power Use Cnt Low', 'kWh', 'mdi:flash'],
-    'elecusagecnthigh': ['Power Use Cnt High', 'kWh', 'mdi:flash'],
-    'elecprodcntlow': ['Power Prod Cnt Low', 'kWh', 'mdi:flash'],
-    'elecprodcnthigh': ['Power Prod Cnt High', 'kWh', 'mdi:flash'],
+    'elecusageflowpulse': ['Power Use', 'Watt', 'mdi:flash'],
+    'elecusageflowlow': ['P1 Power Use Low', 'Watt', 'mdi:flash'],
+    'elecusageflowhigh': ['P1 Power Use High', 'Watt', 'mdi:flash'],
+    'elecprodflowlow': ['P1 Power Prod Low', 'Watt', 'mdi:flash'],
+    'elecprodflowhigh': ['P1 Power Prod High', 'Watt', 'mdi:flash'],
+    'elecusagecntpulse': ['P1 Power Use Cnt', 'kWh', 'mdi:flash'],
+    'elecusagecntlow': ['P1 Power Use Cnt Low', 'kWh', 'mdi:flash'],
+    'elecusagecnthigh': ['P1 Power Use Cnt High', 'kWh', 'mdi:flash'],
+    'elecprodcntlow': ['P1 Power Prod Cnt Low', 'kWh', 'mdi:flash'],
+    'elecprodcnthigh': ['P1 Power Prod Cnt High', 'kWh', 'mdi:flash'],
 }
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
@@ -146,10 +153,17 @@ class ToonSmartMeterSensor(Entity):
         self.data.update()
         energy = self.data.data
 
+        """Modify the dev_3.X below to your needs. This differs per type of meteradapter. Newer types are dev_3.X older are dev_2.X"""
+        """Go to http://toon.ip:port/hdrv_zwave?action=getDevices.json and search for dev_"""
         if self.type == 'gasused':
             self._state = float(energy["dev_3.1"]["CurrentGasFlow"])/100
         elif self.type == 'gasusedcnt':
             self._state = float(energy["dev_3.1"]["CurrentGasQuantity"])/1000
+
+        elif self.type == 'elecusageflowpulse':
+            self._state = energy["dev_3.2"]["CurrentElectricityFlow"]
+        elif self.type == 'elecusagecntpulse':
+            self._state = float(energy["dev_3.2"]["CurrentElectricityQuantity"])/1000
 
         elif self.type == 'elecusageflowlow':
             self._state = energy["dev_3.5"]["CurrentElectricityFlow"]
