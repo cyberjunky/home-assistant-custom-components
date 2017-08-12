@@ -18,7 +18,7 @@ You can also control the thermostat Mode and Setpoint. (target temperature)
 
 ### Installation
 
-- Copy file `climate/toon.py` to your `ha_config_dir/custom-components/climate` directory.
+- Copy file `climate/toon.py` to your `ha_config_dir/custom_components/climate` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -45,7 +45,7 @@ Configuration variables:
 
 ### Screenshot
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon.png "Screenshot")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/toon.png "Screenshot")
 
 ## Toon Smart Meter sensor component
 
@@ -55,7 +55,7 @@ It reads Smart Meter data from your Toon, gathered by the meteradapter.
 
 ### Installation
 
-- Copy file `sensor/toon_smartmeter.py`s to your `ha_config_dir/custom-components/sensor` directory.
+- Copy file `sensor/toon_smartmeter.py`s to your `ha_config_dir/custom_components/sensor` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -73,6 +73,8 @@ sensor:
     resources:
       - gasused
       - gasusedcnt
+      - elecusageflowpulse
+      - elecusagecntpulse
       - elecusageflowlow
       - elecusagecntlow
       - elecusageflowhigh
@@ -88,9 +90,9 @@ Configuration variables:
 - **host** (*Required*): The hostname or IP address on which the Toon can be reached.
 - **port** (*Optional*): Port used by your Toon. (default = 10080)
 - **scan_interval** (*Optional*): Number of seconds between polls. (default = 10)
-- **resources** (*Required*): This section tells the component which values to display, you can leave out the prod values if your don't generate power.
+- **resources** (*Required*): This section tells the component which values to display, you can leave out the elecprod values if your don't generate power and the elecusage*pulse types if you use the P1 connection.
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-badges.png "Toon SmartMeter Badges")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/toon-smartmeter-badges.png "Toon SmartMeter Badges")
 
 If you want them grouped instead of having the separate sensor badges, you can use this in your `groups.yaml`:
 
@@ -98,23 +100,26 @@ If you want them grouped instead of having the separate sensor badges, you can u
 # Example groups.yaml entry
 
 Smart meter:
-  - sensor.p1_gas_used_last_hour
-  - sensor.p1_gas_used_cnt
-  - sensor.p1_power_prod_low
-  - sensor.p1_power_prod_high
-  - sensor.p1_power_prod_cnt_low
-  - sensor.p1_power_prod_cnt_high
-  - sensor.p1_power_use_cnt_low
-  - sensor.p1_power_use_cnt_high
-  - sensor.p1_power_use_low
-  - sensor.p1_power_use_high
+  - sensor.toon_gas_used_last_hour
+  - sensor.toon_gas_used_cnt
+  - sensor.toon_power_use_cnt
+  - sensor.toon_power_use
+  - sensor.toon_p1_power_prod_low
+  - sensor.toon_p1_power_prod_high
+  - sensor.toon_p1_power_prod_cnt_low
+  - sensor.toon_p1_power_prod_cnt_high
+  - sensor.toon_p1_power_use_cnt_pulse
+  - sensor.toon_p1_power_use_cnt_low
+  - sensor.toon_p1_power_use_cnt_high
+  - sensor.toon_p1_power_use_low
+  - sensor.toon_p1_power_use_high
 ```
 
 ### Screenshots
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter.png "Screenshot Toon SmartMeter")
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-graph-gasused.png "Graph Gas Used")
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-graph-poweruselow.png "Graph Power Use Low")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/toon-smartmeter.png "Screenshot Toon SmartMeter")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/toon-smartmeter-graph-gasused.png "Graph Gas Used")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/toon-smartmeter-graph-poweruselow.png "Graph Power Use Low")
 
 
 ## SolarPortal sensor component
@@ -125,7 +130,7 @@ I have a Omnik inverter and so I'm using it with omnikportal, only one I tested 
 
 ### Installation
 
-- Copy file `sensor/solarportal.py` to your `ha_config_dir/custom-components/sensor` directory.
+- Copy file `sensor/solarportal.py` to your `ha_config_dir/custom_components/sensor` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -163,7 +168,7 @@ Configuration variables:
 - **scan_interval** (*Optional*): Number of seconds between polls. (default = 30)
 - **resources** (*Required*): This section tells the component which values to display.
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal-badges.png "SolarPortal Badges")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/solarportal-badges.png "SolarPortal Badges")
 
 If you want them grouped instead of having the separate sensor badges, you can use this in your `groups.yaml`:
 
@@ -180,10 +185,10 @@ OmnikPortal Solar:
 
 ### Screenshots
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal.png "Screenshot SolarPortal")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/solarportal.png "Screenshot SolarPortal")
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal-graph.png "Graph Actual Power")
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal-graph-income.png "Graph Total Income")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/solarportal-graph.png "Graph Actual Power")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/solarportal-graph-income.png "Graph Total Income")
 
 
 ## Battefield1 Stats component
@@ -194,7 +199,7 @@ So this is what this component does and combine them into one sensor.
 
 ### Installation
 
-- Copy file `sensor/bf1stats.py` to your `ha_config_dir/custom-components/sensor` directory.
+- Copy file `sensor/bf1stats.py` to your `ha_config_dir/custom_components/sensor` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -212,8 +217,8 @@ Configuration variables:
 
 - **None**
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/bf1stats-badge.png "BF1Stats Badge")
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/bf1stats-graph.png "BF1Stats Graph")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/bf1stats-badge.png "BF1Stats Badge")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/bf1stats-graph.png "BF1Stats Graph")
 
 
 ## P2000 Emergency Services component
@@ -230,7 +235,7 @@ When matched service calls are found an event is triggered, which you can use in
 $ pip3 install gpxpy
 $ pip3 install feedparser
 ```
-- Copy file `p2000.py` to your `ha_config_dir/custom-components` directory.
+- Copy file `p2000.py` to your `ha_config_dir/custom_components` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -302,7 +307,7 @@ You can use the triggered event to send a push notification like this:
 
 ### Screenshot
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/p2000-notify.png "Screenshot")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/p2000-notify.png "Screenshot")
 
 
 ## Fritzbox_callmonitor Notification example
@@ -357,7 +362,7 @@ And outside temperature based.
 
 ### Installation
 
-- Copy file `remarks.py` to your `ha_config_dir/custom-components` directory.
+- Copy file `remarks.py` to your `ha_config_dir/custom_components` directory.
 - Copy the data directory `remarks` to your `ha_config_dir` directory.
 - Configure with config below.
 - Restart Home-Assistant.
@@ -415,7 +420,7 @@ This component tracks devices using the arp-scan command, it's very fast, and re
 
 ### Installation
 
-- Copy file `device_tracker/arpscan_tracker.py` to your `ha_config_dir/custom-components/device_tracker` directory.
+- Copy file `device_tracker/arpscan_tracker.py` to your `ha_config_dir/custom_components/device_tracker` directory.
 - Install the arp-scan command and set it's sticky bit, so it can be run as root.
 ```
 $ sudo apt-get install arp-scan
