@@ -53,7 +53,7 @@ SENSOR_TYPES = {
     'elecusageflowhigh': ['P1 Power Use High', 'Watt', 'mdi:flash'],
     'elecprodflowlow': ['P1 Power Prod Low', 'Watt', 'mdi:flash'],
     'elecprodflowhigh': ['P1 Power Prod High', 'Watt', 'mdi:flash'],
-    'elecusagecntpulse': ['P1 Power Use Cnt', 'kWh', 'mdi:flash'],
+    'elecusagecntpulse': ['Power Use Cnt', 'kWh', 'mdi:flash'],
     'elecusagecntlow': ['P1 Power Use Cnt Low', 'kWh', 'mdi:flash'],
     'elecusagecnthigh': ['P1 Power Use Cnt High', 'kWh', 'mdi:flash'],
     'elecprodcntlow': ['P1 Power Prod Cnt Low', 'kWh', 'mdi:flash'],
