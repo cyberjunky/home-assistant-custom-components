@@ -45,7 +45,7 @@ Configuration variables:
 
 ### Screenshot
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/toon.png "Screenshot")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon.png "Screenshot")
 
 ## Toon Smart Meter sensor component
 
@@ -92,7 +92,7 @@ Configuration variables:
 - **scan_interval** (*Optional*): Number of seconds between polls. (default = 10)
 - **resources** (*Required*): This section tells the component which values to display, you can leave out the elecprod values if your don't generate power and the elecusage*pulse types if you use the P1 connection.
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/toon-smartmeter-badges.png "Toon SmartMeter Badges")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-badges.png "Toon SmartMeter Badges")
 
 If you want them grouped instead of having the separate sensor badges, you can use this in your `groups.yaml`:
 
@@ -117,9 +117,9 @@ Smart meter:
 
 ### Screenshots
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/toon-smartmeter.png "Screenshot Toon SmartMeter")
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/toon-smartmeter-graph-gasused.png "Graph Gas Used")
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/toon-smartmeter-graph-poweruselow.png "Graph Power Use Low")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter.png "Screenshot Toon SmartMeter")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-graph-gasused.png "Graph Gas Used")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-graph-poweruselow.png "Graph Power Use Low")
 
 
 ## SolarPortal sensor component
@@ -168,7 +168,7 @@ Configuration variables:
 - **scan_interval** (*Optional*): Number of seconds between polls. (default = 30)
 - **resources** (*Required*): This section tells the component which values to display.
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/solarportal-badges.png "SolarPortal Badges")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal-badges.png "SolarPortal Badges")
 
 If you want them grouped instead of having the separate sensor badges, you can use this in your `groups.yaml`:
 
@@ -185,10 +185,10 @@ OmnikPortal Solar:
 
 ### Screenshots
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/solarportal.png "Screenshot SolarPortal")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal.png "Screenshot SolarPortal")
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/solarportal-graph.png "Graph Actual Power")
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/solarportal-graph-income.png "Graph Total Income")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal-graph.png "Graph Actual Power")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal-graph-income.png "Graph Total Income")
 
 
 ## Battefield1 Stats component
@@ -217,8 +217,8 @@ Configuration variables:
 
 - **None**
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/bf1stats-badge.png "BF1Stats Badge")
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/bf1stats-graph.png "BF1Stats Graph")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/bf1stats-badge.png "BF1Stats Badge")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/bf1stats-graph.png "BF1Stats Graph")
 
 
 ## P2000 Emergency Services component
@@ -307,7 +307,7 @@ You can use the triggered event to send a push notification like this:
 
 ### Screenshot
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom_components/master/screenshots/p2000-notify.png "Screenshot")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/p2000-notify.png "Screenshot")
 
 
 ## Fritzbox_callmonitor Notification example
