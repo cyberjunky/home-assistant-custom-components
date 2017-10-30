@@ -81,6 +81,9 @@ sensor:
       - elecprodcntlow
       - elecprodflowhigh
       - elecprodcnthigh
+      - elecsolar
+      - elecsolarcnt
+      - heat
 ```
 
 Configuration variables:
@@ -108,6 +111,10 @@ Smart meter:
   - sensor.p1_power_use_cnt_high
   - sensor.p1_power_use_low
   - sensor.p1_power_use_high
+  - sensor.p1_power_solar
+  - sensor.p1_power_solar_cnt
+  - sensor.p1_heat
+
 ```
 
 ### Screenshots
