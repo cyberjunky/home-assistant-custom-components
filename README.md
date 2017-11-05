@@ -462,7 +462,7 @@ Configuration variables:
 
 ## Plugwise component
 
-This component can read vales and control Plugwise circles/plugs.
+This component can read values from and control Plugwise circles/plugs.
 
 Although it works rather well, it is still work in progress, it uses the older python-plugwise code.
 And it must be made async so it plays nice when it cannot reach a plug it queries resulting in timeouts.
