@@ -456,6 +456,60 @@ Configuration variables:
 - **scan_options** (*Optional*): Configurable scan options for arp-scan. (default is `-l -g -t1 -q`)
 
 
+## Plugwise component
+
+This component can read vales and control Plugwise circles/plugs.
+
+Although it works rather well, it is still work in progress, it uses the older python-plugwise code.
+And it must be made async so it plays nice when it cannot reach a plug it queries resulting in timeouts.
+
+### Installation
+
+- Copy file `switch/plugwise.py` to your `ha_config_dir/custom-components/switch` directory.
+- It has this dependency: python-plugwise, which can be found at https://bitbucket.org/hadara/python-plugwise/wiki/Home
+- Configure with config below.
+- Restart Home-Assistant.
+
+## Usage
+To use this component in your installation, add the following to your `configuration.yaml` file:
+
+```yaml
+# Example configuration.yaml entry
+
+switch:
+  - platform: plugwise
+    port: /dev/ttyUSB0
+    circles:
+      CirclePlus: 000D6F000023711C
+      Koelkast: 000D6F00001C8F33
+```
+
+Configuration variables:
+
+- **port** (*Optional*): Port used by your plugwise stick. (default = /dev/ttyUSB0)
+- **circles** (*Required*): This section tells the component which mac addresses your plugs have and which device names you want to use.
+
+If you want to graph power consumption values you can convert the attribute of the switch into a sensor using template platform like so:
+
+
+```yaml
+# Example sensor.yaml entry
+
+- platform: template
+  sensors:
+    circleplus_power_usage:
+      friendly_name: "CirclePlus Power Usage"
+      unit_of_measurement: 'Watt'
+      value_template: "{{ states.switch.circleplus.attributes.current_consumption }}"
+```
+
+### Screenshots
+
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/plugwise-switches.png "Screenshot Plugwise Switches")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/plugwise-switch.png "Screenshot Plugwise Switch")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/plugwise-graph.png "Screenshot Plugwise Graph")
+
+
 ## TODO
 - Implement better input checks.
 - Add more error handling.
