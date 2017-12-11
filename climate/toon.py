@@ -15,12 +15,14 @@ import logging
 import json
 import voluptuous as vol
 
-from homeassistant.components.climate import (ClimateDevice, PLATFORM_SCHEMA)
+from homeassistant.components.climate import (ClimateDevice, PLATFORM_SCHEMA, SUPPORT_TARGET_TEMPERATURE, SUPPORT_OPERATION_MODE)
 from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_PORT,
                                  TEMP_CELSIUS, ATTR_TEMPERATURE)
 import homeassistant.helpers.config_validation as cv
 
 import requests
+
+SUPPORT_FLAGS = SUPPORT_TARGET_TEMPERATURE | SUPPORT_OPERATION_MODE
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -41,15 +43,13 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 # pylint: disable=unused-argument
 def setup_platform(hass, config, add_devices, discovery_info=None):
-    """Setup the Toon thermostats."""
-
-    add_devices([Thermostat(config.get(CONF_NAME), config.get(CONF_HOST),
+    """Setup the Toon thermostat."""
+    add_devices([ThermostatDevice(config.get(CONF_NAME), config.get(CONF_HOST),
                             config.get(CONF_PORT))])
-
 
 # pylint: disable=abstract-method
 # pylint: disable=too-many-instance-attributes
-class Thermostat(ClimateDevice):
+class ThermostatDevice(ClimateDevice):
     """Representation of a Toon thermostat."""
 
     def __init__(self, name, host, port):
@@ -58,11 +58,11 @@ class Thermostat(ClimateDevice):
         self._name = name
         self._host = host
         self._port = port
-        self._current_temp = 0
-        self._current_setpoint = 0
+        self._current_temp = None
+        self._current_setpoint = None
         self._current_state = -1
         self._current_operation = ''
-        self._set_state = 0
+        self._set_state = None
         self._operation_list = ['Comfort', 'Home', 'Sleep', 'Away', 'Holiday']
         _LOGGER.debug("Init called")
         self.update()
@@ -75,7 +75,7 @@ class Thermostat(ClimateDevice):
             _LOGGER.exception("Error doing API request")
         else:
             _LOGGER.debug("API request ok %d", req.status_code)
-        
+
         """Fixes invalid JSON output by TOON"""
         reqinvalid = req.text
         reqvalid = reqinvalid.replace('",}', '"}')
@@ -98,6 +98,11 @@ class Thermostat(ClimateDevice):
         self._current_temp = int(self._data['currentTemp'])/100
         self._current_state = int(self._data['activeState'])
         _LOGGER.debug("Update called")
+
+    @property
+    def supported_features(self):
+        """Return the list of supported features."""
+        return SUPPORT_FLAGS
 
     @property
     def name(self):
