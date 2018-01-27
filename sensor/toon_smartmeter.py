@@ -2,9 +2,6 @@
 Support for reading SmartMeter data through Eneco's Toon thermostats.
 Only works for rooted Toon.
 
-Modify the dev_3.X at the end of the document to your needs. 
-This differs per type of meteradapter. Newer types are dev_3.X older are dev_2.X.
-
 configuration.yaml
 
 sensor:
@@ -159,7 +156,6 @@ class ToonSmartMeterSensor(Entity):
         self.data.update()
         energy = self.data.data
 
-        """Modify the dev_3.X below to your needs. This differs per type of meteradapter. Newer types are dev_3.X older are dev_2.X"""
         """Go to http://toon.ip:port/hdrv_zwave?action=getDevices.json and search for dev_"""
         if self.type == 'gasused':
             if 'dev_3.1' in energy:
@@ -174,9 +170,16 @@ class ToonSmartMeterSensor(Entity):
                 self._state = float(energy["dev_2.1"]["CurrentGasQuantity"])/1000
 
         elif self.type == 'elecusageflowpulse':
-            self._state = energy["dev_3.2"]["CurrentElectricityFlow"]
+            if 'dev_3.2' in energy:
+                self._state = energy["dev_3.2"]["CurrentElectricityFlow"]
+            elif 'dev_2.2' in energy:
+                self._state = energy["dev_2.2"]["CurrentElectricityFlow"]
+
         elif self.type == 'elecusagecntpulse':
-            self._state = float(energy["dev_3.2"]["CurrentElectricityQuantity"])/1000
+            if 'dev_3.2' in energy:
+                self._state = float(energy["dev_3.2"]["CurrentElectricityQuantity"])/1000
+            elif 'dev_2.2' in energy:
+                self._state = float(energy["dev_2.2"]["CurrentElectricityQuantity"])/1000
 
         elif self.type == 'elecusageflowlow':
             if 'dev_3.5' in energy:
