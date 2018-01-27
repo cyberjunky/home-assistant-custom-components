@@ -128,6 +128,70 @@ Smart meter:
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-graph-poweruselow.png "Graph Power Use Low")
 
 
+## Toon Boiler Status sensor component
+
+NOTE: This component only works with rooted Toon devices. And installed BoilerStatus app via ToonStore.  
+
+It reads OpenTherm Boiler data from your Toon, gathered by the thermostat adapter.
+
+### Installation
+
+- Copy file `sensor/toon_boilerstatus.py`s to your `ha_config_dir/custom_components/sensor` directory.
+- Configure with config below.
+- Restart Home-Assistant.
+
+## Usage
+To use this component in your installation, add the following to your `configuration.yaml` file:
+
+```yaml
+# Example configuration.yaml entry
+
+sensor:
+  - platform: toon_boilerstatus
+    host: IP_ADDRESS
+    port: 10080
+    scan_interval: 10
+    resources:
+      - sampletime
+      - boilersetpoint
+      - boilerintemp
+      - boilerouttemp
+      - boilerpressure
+      - boilermodulationlevel
+      - roomtemp
+      - roomtempsetpoint
+```
+
+Configuration variables:
+
+- **host** (*Required*): The hostname or IP address on which the Toon can be reached.
+- **port** (*Optional*): Port used by your Toon. (default = 10080)
+- **scan_interval** (*Optional*): Number of seconds between polls. (default = 10)
+- **resources** (*Required*): This section tells the component which values to display and monitor.
+
+By default the values are displayed as badges.
+
+If you want them grouped instead of having the separate sensor badges, you can use this in your `groups.yaml`:
+
+```yaml
+# Example groups.yaml entry
+
+Boiler Status:
+  - sensor.toon_boiler_intemp
+  - sensor.toon_boiler_outtemp
+  - sensor.toon_boiler_setpoint
+  - sensor.toon_boiler_pressure
+  - sensor.toon_boiler_modulation
+  - sensor.toon_room_temp
+  - sensor.toon_room_temp_setpoint
+  - sensor.toon_sample_time
+```
+
+### Screenshots
+
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-boilerstatus.png "Screenshot Toon Boiler Status")
+
+
 ## SolarPortal sensor component
 
 There are several solarpower portals storing you power generation data using the same API.
