@@ -152,7 +152,6 @@ sensor:
     port: 10080
     scan_interval: 10
     resources:
-      - sampletime
       - boilersetpoint
       - boilerintemp
       - boilerouttemp
@@ -184,7 +183,6 @@ Boiler Status:
   - sensor.toon_boiler_modulation
   - sensor.toon_room_temp
   - sensor.toon_room_temp_setpoint
-  - sensor.toon_sample_time
 ```
 
 ### Screenshots

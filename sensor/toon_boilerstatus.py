@@ -10,7 +10,6 @@ sensor:
     port: 10080
     scan_interval: 10
     resources:
-      - sampletime
       - boilersetpoint
       - boilerintemp
       - boilerouttemp
@@ -39,7 +38,6 @@ MIN_TIME_BETWEEN_UPDATES = timedelta(seconds=10)
 SENSOR_PREFIX = 'Toon '
 
 SENSOR_TYPES = {
-    'sampletime': ['Sample Time', '', 'mdi:clock'],
     'boilersetpoint': ['Boiler SetPoint', '°C', 'mdi:thermometer'],
     'boilerintemp': ['Boiler InTemp', '°C', 'mdi:thermometer'],
     'boilerouttemp': ['Boiler OutTemp', '°C', 'mdi:thermometer'],
@@ -137,16 +135,23 @@ class ToonBoilerStatusSensor(Entity):
         """Return the unit of measurement of this entity, if any."""
         return self._unit
 
+    @property
+    def device_state_attributes(self):
+        """Return the state attributes of this device."""
+        attr = {}
+        if self._last_updated is not None:
+            attr['Last Updated'] = self._last_updated
+        return attr
+
     def update(self):
         """Get the latest data and use it to update our sensor state."""
         self.data.update()
         boilerstatus = self.data.data
 
-        if self.type == 'sampletime':
-            if 'sampleTime' in boilerstatus:
-                self._state = boilerstatus["sampleTime"]
+        if 'sampleTime' in boilerstatus:
+            self._last_updated = boilerstatus["sampleTime"]
 
-        elif self.type == 'boilersetpoint':
+        if self.type == 'boilersetpoint':
             if 'boilerSetpoint' in boilerstatus:
                 self._state = float(boilerstatus["boilerSetpoint"])
 
@@ -173,4 +178,3 @@ class ToonBoilerStatusSensor(Entity):
         elif self.type == 'roomtempsetpoint':
             if 'roomTempSetpoint' in boilerstatus:
                 self._state = float(boilerstatus["roomTempSetpoint"])
-
