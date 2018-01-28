@@ -110,6 +110,7 @@ class ToonBoilerStatusSensor(Entity):
         """Initialize the sensor."""
         self.data = data
         self.type = sensor_type
+        self._last_updated = None
         self._name = SENSOR_PREFIX + SENSOR_TYPES[self.type][0]
         self._unit = SENSOR_TYPES[self.type][1]
         self._icon = SENSOR_TYPES[self.type][2]
