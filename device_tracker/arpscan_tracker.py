@@ -28,7 +28,7 @@ MIN_TIME_BETWEEN_SCANS = timedelta(seconds=5)
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_EXCLUDE, default=[]):
-        vol.All(cv.ensure_list, vol.Length(min=1)),
+        vol.All(cv.ensure_list, [cv.string]),
     vol.Optional(CONF_OPTIONS, default=DEFAULT_OPTIONS):
         cv.string
 })
