@@ -5,13 +5,27 @@ Some of my custom components for home-assistant. (http://www.home-assistant.io)
 Part of a small Proof of Concept, currently I am too lazy to integrate into upstream at the moment.
 Still learning to program in python3 and how to make home-assistant components.
 
-## Toon Thermostat climate component
+Component Overview
+------------------
+  * [TOON Thermostat climate component](#toon-thermostat-climate-component)
+  * [TOON Smart Meter sensor component](#toon-smart-meter-sensor-component)
+  * [TOON Boiler Status sensor component](#toon-boiler-status-sensor-component)
+  * [SolarPortal sensor component](#solarportal-sensor-component)
+  * [Battefield1 Stats component](#battefield1-stats-component)
+  * [P2000 Emergency Services component](#p2000-emergency-services-component)
+  * [Fritzbox_callmonitor Notification example](#fritzbox_callmonitor-notification-example)
+  * [Remarks component](#remarks-component)
+  * [arp-scan Device Tracker component](#arp-scan-device-tracker-component)
+  * [Plugwise component](#plugwise-component)
+  * [TheThingsNetwork Gateway status component](#thethingsnetwork-gateway-status-component)
 
-NOTE: This component only works with rooted Toon devices.
+## TOON Thermostat climate component
+
+NOTE: This component only works with rooted TOON devices.
 Toon's are Thermostats sold by Eneco a Dutch energy company.
 
 More information about preparing for usage with this component can be found here:
-[Eneco Toon as Domotica controller](http://www.domoticaforum.eu/viewforum.php?f=87)
+[Eneco TOON as Domotica controller](http://www.domoticaforum.eu/viewforum.php?f=87)
 
 This component reads the Thermostat Mode, Current Temperature and it's Setpoint.
 You can also control the thermostat Mode and Setpoint. (target temperature)
@@ -22,7 +36,7 @@ You can also control the thermostat Mode and Setpoint. (target temperature)
 - Configure with config below.
 - Restart Home-Assistant.
 
-## Usage
+### Usage
 To use this component in your installation, add the following to your `configuration.yaml` file:
 
 ```yaml
@@ -60,7 +74,7 @@ It reads Smart Meter data from your TOON, gathered by the meteradapter.
 - Configure with config below.
 - Restart Home-Assistant.
 
-## Usage
+### Usage
 To use this component in your installation, add the following to your `configuration.yaml` file:
 
 ```yaml
@@ -141,7 +155,7 @@ It reads OpenTherm Boiler data from your TOON, gathered by the thermostat adapte
 - Configure with config below.
 - Restart Home-Assistant.
 
-## Usage
+### Usage
 To use this component in your installation, add the following to your `configuration.yaml` file:
 
 ```yaml
@@ -203,7 +217,7 @@ I have a Omnik inverter and so I'm using it with omnikportal, only one I tested 
 - Configure with config below.
 - Restart Home-Assistant.
 
-## Usage
+### Usage
 To use this component in your installation, add the following to your `configuration.yaml` file:
 
 ```yaml
@@ -272,7 +286,7 @@ So this is what this component does and combine them into one sensor.
 - Configure with config below.
 - Restart Home-Assistant.
 
-## Usage
+### Usage
 To use this component in your installation, add the following to your `configuration.yaml` file:
 
 ```yaml
@@ -307,7 +321,7 @@ $ pip3 install feedparser
 - Configure with config below.
 - Restart Home-Assistant.
 
-## Usage
+### Usage
 To use this component in your installation, add the following to your `configuration.yaml` file:
 
 ```yaml
@@ -435,7 +449,7 @@ And outside temperature based.
 - Configure with config below.
 - Restart Home-Assistant.
 
-## Usage
+### Usage
 To use this component in your installation, add the following to your `configuration.yaml` file:
 
 ```yaml
@@ -497,7 +511,7 @@ $ sudo chmod +s /usr/bin/arp-scan
 - Configure with config below.
 - Restart Home-Assistant.
 
-## Usage
+### Usage
 To use this component in your installation, add the following to your `configuration.yaml` file:
 
 ```yaml
@@ -536,7 +550,7 @@ And it must be made async so it plays nice when it cannot reach a plug it querie
 - Configure with config below.
 - Restart Home-Assistant.
 
-## Usage
+### Usage
 To use this component in your installation, add the following to your `configuration.yaml` file:
 
 ```yaml
@@ -586,7 +600,7 @@ This component can read status values from a local TTN Gateway.
 - Configure with config below.
 - Restart Home-Assistant.
 
-## Usage
+### Usage
 To use this component in your installation, add the following to your `configuration.yaml` file:
 
 ```yaml
