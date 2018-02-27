@@ -47,11 +47,12 @@ Configuration variables:
 
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon.png "Screenshot")
 
-## Toon Smart Meter sensor component
 
-NOTE: This component only works with rooted Toon devices.
+## TOON Smart Meter sensor component
 
-It reads Smart Meter data from your Toon, gathered by the meteradapter.
+NOTE: This component only works with rooted TOON devices.
+
+It reads Smart Meter data from your TOON, gathered by the meteradapter.
 
 ### Installation
 
@@ -90,8 +91,8 @@ sensor:
 
 Configuration variables:
 
-- **host** (*Required*): The hostname or IP address on which the Toon can be reached.
-- **port** (*Optional*): Port used by your Toon. (default = 10080)
+- **host** (*Required*): The hostname or IP address on which the TOON can be reached.
+- **port** (*Optional*): Port used by your TOON. (default = 10080)
 - **scan_interval** (*Optional*): Number of seconds between polls. (default = 10)
 - **resources** (*Required*): This section tells the component which values to display, you can leave out the elecprod values if your don't generate power and the elecusage*pulse types if you use the P1 connection.
 
@@ -128,11 +129,11 @@ Smart meter:
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-graph-poweruselow.png "Graph Power Use Low")
 
 
-## Toon Boiler Status sensor component
+## TOON Boiler Status sensor component
 
-NOTE: This component only works with rooted Toon devices. And installed BoilerStatus app via ToonStore.  
+NOTE: This component only works with rooted TOON devices. And installed BoilerStatus app via ToonStore.  
 
-It reads OpenTherm Boiler data from your Toon, gathered by the thermostat adapter.
+It reads OpenTherm Boiler data from your TOON, gathered by the thermostat adapter.
 
 ### Installation
 
@@ -163,8 +164,8 @@ sensor:
 
 Configuration variables:
 
-- **host** (*Required*): The hostname or IP address on which the Toon can be reached.
-- **port** (*Optional*): Port used by your Toon. (default = 10080)
+- **host** (*Required*): The hostname or IP address on which the TOON can be reached.
+- **port** (*Optional*): Port used by your TOON. (default = 10080)
 - **scan_interval** (*Optional*): Number of seconds between polls. (default = 10)
 - **resources** (*Required*): This section tells the component which values to display and monitor.
 
@@ -295,7 +296,6 @@ This component queries the portal http://feeds.livep2000.nl every interval minut
 It's only based on Dutch services.
 When matched service calls are found an event is triggered, which you can use in automation rule. (see example below)
 
- 
 ### Installation
 - Install required python libraries
 
@@ -576,7 +576,6 @@ If you want to graph power consumption values you can convert the attribute of t
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/plugwise-graph.png "Screenshot Plugwise Graph")
 
 
-
 ## TheThingsNetwork Gateway status component
 
 This component can read status values from a local TTN Gateway.
@@ -593,26 +592,27 @@ To use this component in your installation, add the following to your `configura
 ```yaml
 # Example configuration.yaml entry
 
-- platform: ttn_gateway
-  host: IP_ADDRESS
-  scan_interval: 10
-  resources:
-    - gateway
-    - hwversion
-    - blversion
-    - fwversion
-    - uptime
-    - connected
-    - interface
-    - ssid
-    - activationlocked
-    - configured
-    - region
-    - gwcard
-    - brokerconnected
-    - packetsup
-    - packetsdown
-    - estore
+sensor:
+  - platform: ttn_gateway
+    host: IP_ADDRESS
+    scan_interval: 10
+    resources:
+      - gateway
+      - hwversion
+      - blversion
+      - fwversion
+      - uptime
+      - connected
+      - interface
+      - ssid
+      - activationlocked
+      - configured
+      - region
+      - gwcard
+      - brokerconnected
+      - packetsup
+      - packetsdown
+      - estore
 ```
 
 Configuration variables:
@@ -651,7 +651,7 @@ TTN Gateway:
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/ttn-gw-status.png "Screenshot TTN Gateway Status")
 
 
-## TODO
+## TODO for most of above components
 - Implement better input checks.
 - Add more error handling.
 - Make the components work async.
