@@ -5,7 +5,7 @@ Dutch P2000 based.
 """
 from logging import getLogger
 import datetime
-import gpxpy.geo
+from geopy.distance import vincenty 
 import feedparser
 
 import voluptuous as vol
@@ -23,10 +23,11 @@ CONF_INTERVAL = 'interval'
 CONF_DISTANCE = 'distance'
 
 DEFAULT_DISCIPLINES = '1,2,3,4'
-DEFAULT_INTERVAL = 1
+DEFAULT_INTERVAL = 10
 DEFAULT_DISTANCE = 5000
 
 ATTR_TEXT = 'text'
+ATTR_URL = 'url'
 
 DOMAIN = 'p2000'
 EVENT_P2000 = 'p2000'
@@ -80,7 +81,7 @@ class P2000Manager(object):  # pylint: disable=too-few-public-methods
         self._lon = longitude
 
         track_utc_time_change(hass, lambda now: self._update(),
-                              minute=range(1, 59, interval), second=0)
+                              second=range(1, 59, interval))
 
     @staticmethod
     def _convert_time(time):
@@ -125,6 +126,11 @@ class P2000Manager(object):  # pylint: disable=too-few-public-methods
             return
 
         for item in reversed(self._feed.entries):
+            msgtext = ''
+            lat_event = 0.0
+            lon_event = 0.0
+            dist = 0
+
             if 'published' in item:
                 pubdate = item.published
                 lastmsg_time = self._convert_time(pubdate)
@@ -136,23 +142,29 @@ class P2000Manager(object):  # pylint: disable=too-few-public-methods
 
             self._lastmsg_time = lastmsg_time
 
-            msgtext = ''
-            lat_event = 0.0
-            lon_event = 0.0
-            dist = 0
-
             if 'geo_lat' in item:
                 lat_event = float(item.geo_lat)
-            if 'geo_long' in item:
-                lon_event = float(item.geo_long)
-
-            if lat_event and lon_event:
-                dist = gpxpy.geo.haversine_distance(self._lat, self._lon,
-                                                    lat_event, lon_event)
-
-            if dist <= self._maxdist:
-                msgtext = item.title.replace("~", "")+'\n'+pubdate+'\n'
             else:
                 continue
 
-        self._hass.bus.fire(EVENT_P2000, {ATTR_TEXT: msgtext})
+            if 'geo_long' in item:
+                lon_event = float(item.geo_long)
+            else:
+                continue
+
+            if lat_event and lon_event:
+                p1 = (self._lat, self._lon)
+                p2 = (lat_event, lon_event)
+                dist = vincenty(p1, p2).meters
+
+            msgtext = item.title.replace("~", "")+'\n'+pubdate+'\n'
+            _LOGGER.debug(msgtext)
+            _LOGGER.debug('Calculated distance is %d meters, max. range is %d meters', dist, self._maxdist)
+
+            if dist > self._maxdist:
+                msgtext = ''
+                continue
+
+        if msgtext != "":
+            self._hass.bus.fire(EVENT_P2000, {ATTR_TEXT: msgtext})
+
