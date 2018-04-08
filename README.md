@@ -368,7 +368,7 @@ Configuration variables:
  * 3 = Politie
  * 4 = KNRM
 - **distance** (*Optional*): Only display on calls within this range in meters, it uses the lat/lon from your home-assistant.conf file as center. (default = 5000)
-- **interval** (*Optional*): Check every x minutes. (default = 5)
+- **interval** (*Optional*): Check every x seconds. (default = 30)
 
 It triggers only on new messages, at a home-assistant restart, old messages are skipped.
 
