@@ -95,7 +95,7 @@ class ToonData(object):
     def update(self):
         """Update the data from the thermostat."""
         try:
-            self.data = requests.get(BASE_URL.format(self._host, self._port, '/boilerstatus/boilervalues.txt'), timeout=5).json()
+            self.data = requests.get(BASE_URL.format(self._host, self._port, '/boilerstatus/boilervalues.txt'), timeout=5, headers={'accept-encoding': None}).json()
             _LOGGER.debug("Data = %s", self.data)
         except requests.exceptions.RequestException:
             _LOGGER.error("Error occurred while fetching data.")
