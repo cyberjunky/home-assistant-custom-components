@@ -162,81 +162,111 @@ class ToonSmartMeterSensor(Entity):
                 self._state = float(energy["dev_3.1"]["CurrentGasFlow"])/100
             elif 'dev_2.1' in energy:
                 self._state = float(energy["dev_2.1"]["CurrentGasFlow"])/100
+            elif 'dev_4.1' in energy:
+                self._state = float(energy["dev_4.1"]["CurrentGasFlow"])/100
 
         elif self.type == 'gasusedcnt':
             if 'dev_3.1' in energy:
                 self._state = float(energy["dev_3.1"]["CurrentGasQuantity"])/1000
             elif 'dev_2.1' in energy:
                 self._state = float(energy["dev_2.1"]["CurrentGasQuantity"])/1000
+            elif 'dev_4.1' in energy:
+                self._state = float(energy["dev_4.1"]["CurrentGasQuantity"])/1000
 
         elif self.type == 'elecusageflowpulse':
             if 'dev_3.2' in energy:
                 self._state = energy["dev_3.2"]["CurrentElectricityFlow"]
             elif 'dev_2.2' in energy:
                 self._state = energy["dev_2.2"]["CurrentElectricityFlow"]
+            elif 'dev_4.2' in energy:
+                self._state = energy["dev_4.2"]["CurrentElectricityFlow"]
 
         elif self.type == 'elecusagecntpulse':
             if 'dev_3.2' in energy:
                 self._state = float(energy["dev_3.2"]["CurrentElectricityQuantity"])/1000
             elif 'dev_2.2' in energy:
                 self._state = float(energy["dev_2.2"]["CurrentElectricityQuantity"])/1000
+            elif 'dev_4.2' in energy:
+                self._state = float(energy["dev_4.2"]["CurrentElectricityQuantity"])/1000
 
         elif self.type == 'elecusageflowlow':
             if 'dev_3.5' in energy:
                 self._state = energy["dev_3.5"]["CurrentElectricityFlow"]
             elif 'dev_2.6' in energy:
                 self._state = energy["dev_2.6"]["CurrentElectricityFlow"]
+            elif 'dev_4.6' in energy:
+                self._state = energy["dev_4.6"]["CurrentElectricityFlow"]
 
         elif self.type == 'elecusagecntlow':
             if 'dev_3.5' in energy:
                 self._state = float(energy["dev_3.5"]["CurrentElectricityQuantity"])/1000
             elif 'dev_2.6' in energy:
                 self._state = float(energy["dev_2.6"]["CurrentElectricityQuantity"])/1000
+            elif 'dev_4.6' in energy:
+                self._state = float(energy["dev_4.6"]["CurrentElectricityQuantity"])/1000
 
         elif self.type == 'elecusageflowhigh':
             if 'dev_3.3' in energy:
                 self._state = energy["dev_3.3"]["CurrentElectricityFlow"]
             elif 'dev_2.4' in energy:
                 self._state = energy["dev_2.4"]["CurrentElectricityFlow"]
+            elif 'dev_4.4' in energy:
+                self._state = energy["dev_4.4"]["CurrentElectricityFlow"]
 
         elif self.type == 'elecusagecnthigh':
             if 'dev_3.3' in energy:
                 self._state = float(energy["dev_3.3"]["CurrentElectricityQuantity"])/1000
             elif 'dev_2.4' in energy:
                 self._state = float(energy["dev_2.4"]["CurrentElectricityQuantity"])/1000
+            elif 'dev_4.4' in energy:
+                self._state = float(energy["dev_4.4"]["CurrentElectricityQuantity"])/1000
 
         elif self.type == 'elecprodflowlow':
             if 'dev_3.6' in energy:
                 self._state = energy["dev_3.6"]["CurrentElectricityFlow"]
             elif 'dev_2.7' in energy:
                 self._state = energy["dev_2.7"]["CurrentElectricityFlow"]
+            elif 'dev_4.7' in energy:
+                self._state = energy["dev_4.7"]["CurrentElectricityFlow"]
 
         elif self.type == 'elecprodcntlow':
             if 'dev_3.6' in energy:
                 self._state = float(energy["dev_3.6"]["CurrentElectricityQuantity"])/1000
             elif 'dev_2.7' in energy:
                 self._state = float(energy["dev_2.7"]["CurrentElectricityQuantity"])/1000
+            elif 'dev_4.7' in energy:
+                self._state = float(energy["dev_4.7"]["CurrentElectricityQuantity"])/1000
 
         elif self.type == 'elecprodflowhigh':
             if 'dev_3.4' in energy:
                 self._state = energy["dev_3.4"]["CurrentElectricityFlow"]
             elif 'dev_2.5' in energy:
                 self._state = energy["dev_2.5"]["CurrentElectricityFlow"]
+            elif 'dev_4.5' in energy:
+                self._state = energy["dev_4.5"]["CurrentElectricityFlow"]
 
         elif self.type == 'elecprodcnthigh':
             if 'dev_3.4' in energy:
                 self._state = float(energy["dev_3.4"]["CurrentElectricityQuantity"])/1000
             elif 'dev_2.5' in energy:
                 self._state = float(energy["dev_2.5"]["CurrentElectricityQuantity"])/1000
+            elif 'dev_4.5' in energy:
+                self._state = float(energy["dev_4.5"]["CurrentElectricityQuantity"])/1000
 
         elif self.type == 'elecsolar':
             if 'dev_2.3' in energy:
                 self._state = energy["dev_2.3"]["CurrentElectricityFlow"]
+            elif 'dev_4.3' in energy:
+                self._state = energy["dev_4.3"]["CurrentElectricityFlow"]
 
         elif self.type == 'elecsolarcnt':
             if 'dev_2.3' in energy:
                 self._state = float(energy["dev_2.3"]["CurrentElectricityQuantity"])/1000
+            elif 'dev_4.3' in energy:
+                self._state = float(energy["dev_4.3"]["CurrentElectricityQuantity"])/1000
 
         elif self.type == 'heat':
             if 'dev_2.8' in energy:
                 self._state = float(energy["dev_2.8"]["CurrentHeatQuantity"])/1000
+            elif 'dev_4.8' in energy:
+                self._state = float(energy["dev_4.8"]["CurrentHeatQuantity"])/1000
