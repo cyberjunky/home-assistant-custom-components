@@ -14,6 +14,8 @@ from homeassistant.helpers.event import track_utc_time_change
 import homeassistant.util as util
 import homeassistant.helpers.config_validation as cv
 
+REQUIREMENTS = ['geopy','feedparser']
+
 _LOGGER = getLogger(__name__)
 _RESOURCE = 'http://feeds.livep2000.nl?r={}&d={}'
 
