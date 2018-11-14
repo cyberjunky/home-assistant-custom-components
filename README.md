@@ -312,6 +312,7 @@ When matched service calls are found an event is triggered, which you can use in
 
 ### Installation
 - Install required python libraries
+NOTE: this step can be skipped when using hass.io
 
 ```
 $ pip3 install geopy
