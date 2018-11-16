@@ -5,8 +5,6 @@ Dutch P2000 based.
 """
 from logging import getLogger
 import datetime
-from geopy.distance import vincenty 
-import feedparser
 
 import voluptuous as vol
 
@@ -18,6 +16,9 @@ REQUIREMENTS = ['geopy','feedparser']
 
 _LOGGER = getLogger(__name__)
 _RESOURCE = 'http://feeds.livep2000.nl?r={}&d={}'
+
+REQUIREMENTS = ['feedparser==5.2.1',
+  'geopy==1.17.0']
 
 CONF_REGIOS = 'regios'
 CONF_DISCIPLINES = 'disciplines'
@@ -93,6 +94,8 @@ class P2000Manager(object):  # pylint: disable=too-few-public-methods
     def _update(self):
         """Update the feed and publish new entries to the event bus."""
 
+        import feedparser
+
         _LOGGER.debug('Fetching data from feed "%s"', self._url)
         self._feed = feedparser.parse(self._url,
                                       etag=None if not self._feed
@@ -119,6 +122,8 @@ class P2000Manager(object):  # pylint: disable=too-few-public-methods
 
     def _publish_new_entries(self):
         """Parse XML and publish entries to the event bus."""
+
+        from geopy.distance import vincenty 
 
         if self._restart:
             pubdate = self._feed.entries[0]['published']
@@ -169,4 +174,3 @@ class P2000Manager(object):  # pylint: disable=too-few-public-methods
 
         if msgtext != "":
             self._hass.bus.fire(EVENT_P2000, {ATTR_TEXT: msgtext})
-
