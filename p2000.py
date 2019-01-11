@@ -5,6 +5,8 @@ Dutch P2000 based.
 """
 from logging import getLogger
 import datetime
+from geopy.distance import vincenty 
+import feedparser
 
 import voluptuous as vol
 
@@ -12,11 +14,10 @@ from homeassistant.helpers.event import track_utc_time_change
 import homeassistant.util as util
 import homeassistant.helpers.config_validation as cv
 
+REQUIREMENTS = ['geopy','feedparser']
+
 _LOGGER = getLogger(__name__)
 _RESOURCE = 'http://feeds.livep2000.nl?r={}&d={}'
-
-REQUIREMENTS = ['feedparser==5.2.1',
-  'geopy==1.17.0']
 
 CONF_REGIOS = 'regios'
 CONF_DISCIPLINES = 'disciplines'
@@ -24,7 +25,7 @@ CONF_INTERVAL = 'interval'
 CONF_DISTANCE = 'distance'
 
 DEFAULT_DISCIPLINES = '1,2,3,4'
-DEFAULT_INTERVAL = 30
+DEFAULT_INTERVAL = 10
 DEFAULT_DISTANCE = 5000
 
 ATTR_TEXT = 'text'
@@ -62,8 +63,7 @@ def setup(hass, config):
     P2000Manager(url, distance, latitude, longitude, interval, hass)
 
     return True
-
-
+    
 class P2000Manager(object):  # pylint: disable=too-few-public-methods
     """Get data from P2000 feed."""
 
@@ -80,7 +80,6 @@ class P2000Manager(object):  # pylint: disable=too-few-public-methods
         self._hass = hass
         self._lat = latitude
         self._lon = longitude
-
         track_utc_time_change(hass, lambda now: self._update(),
                               second=range(1, 59, interval))
 
@@ -92,14 +91,14 @@ class P2000Manager(object):  # pylint: disable=too-few-public-methods
     def _update(self):
         """Update the feed and publish new entries to the event bus."""
 
-        import feedparser
-
         _LOGGER.debug('Fetching data from feed "%s"', self._url)
         self._feed = feedparser.parse(self._url,
                                       etag=None if not self._feed
                                       else self._feed.get('etag'),
                                       modified=None if not self._feed
                                       else self._feed.get('modified'))
+
+        _LOGGER.debug('Feed: "%s"', self._feed)
 
         if not self._feed:
             _LOGGER.debug('Error fetching feed data from "%s"', self._url)
@@ -120,8 +119,6 @@ class P2000Manager(object):  # pylint: disable=too-few-public-methods
 
     def _publish_new_entries(self):
         """Parse XML and publish entries to the event bus."""
-
-        from geopy.distance import vincenty 
 
         if self._restart:
             pubdate = self._feed.entries[0]['published']

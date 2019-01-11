@@ -4,8 +4,8 @@ Support for getting information about BattleField 1 online player counts.
 For more details about this platform, please refer to the documentation at
 https://home-assistant.io/components/sensor.bf1stats/
 """
-from datetime import timedelta
 import logging
+from datetime import timedelta
 import requests
 
 import voluptuous as vol
@@ -26,7 +26,7 @@ DEFAULT_NAME = 'Battlefield 1 Stats'
 ICON = 'mdi:gamepad-variant'
 UNIT = 'Players'
 
-MIN_TIME_BETWEEN_UPDATES = timedelta(seconds=30)
+MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=15)
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
@@ -36,13 +36,13 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 # pylint: disable=unused-argument
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Set up the BF1Stats sensor."""
-    data = BF1StatsData(hass)
     name = config.get(CONF_NAME)
 
     try:
+        data = BF1StatsData(hass)
         data.update()
-    except RunTimeError:
-        _LOGGER.error("Unable to connect fetch BF1Stats data: %s")
+    except requests.exceptions.HTTPError as error:
+        _LOGGER.error(error)
         return False
 
     add_devices([BF1StatsSensor(data, name)])
@@ -75,10 +75,11 @@ class BF1StatsSensor(Entity):
     def device_state_attributes(self):
         """Return the state attributes of this device."""
         attr = {}
-        attr['PC'] = int(self.data.data['pc']['count'])
-        attr['XBOX'] = int(self.data.data['xone']['count'])
-        attr['PS4'] = int(self.data.data['ps4']['count'])
-        attr[ATTR_ATTRIBUTION] = CONF_ATTRIBUTION
+        if self.data.data is not None:
+            attr['PC'] = int(self.data.data['pc']['count'])
+            attr['XBOX'] = int(self.data.data['xone']['count'])
+            attr['PS4'] = int(self.data.data['ps4']['count'])
+            attr[ATTR_ATTRIBUTION] = CONF_ATTRIBUTION
         return attr
 
     @property
@@ -109,7 +110,7 @@ class BF1StatsData(object):
     def update(self):
         """Get the latest data from BF1Stats API."""
         try:
-            self.data = requests.get(_RESOURCE, timeout=10).json()
+            self.data = requests.get(_RESOURCE, timeout=5).json()
             _LOGGER.debug("Data = %s", self.data)
         except ValueError as err:
             _LOGGER.error("Check BF1Stats %s", err.args)
