@@ -666,7 +666,91 @@ TTN Gateway:
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/ttn-gw-status.png "Screenshot TTN Gateway Status")
 
 
+## HVCGroep sensor component
+
+Gets garbage pickup dates straight from HVC Groep's rest API.
+
+### Installation
+
+- Copy file `sensor/hvcgroep.py` to your `ha_config_dir/custom_components/sensor` directory.
+- Configure with config below.
+- Restart Home-Assistant.
+
+### Usage
+To use this component in your installation, add the following to your `configuration.yaml` file:
+
+```yaml
+# Example configuration.yaml entry
+
+sensor:
+  - platform: hvcgroep
+    postcode: 1234AB
+    huisnummer: 1
+    resources:
+      - gft
+      - plastic
+      - papier
+      - restafval
+```
+
+Configuration variables:
+
+- **postcode** (*Required*): Your postal code.
+- **huisnummer** (*Required*): Your house number.
+- **resources** (*Required*): This section tells the component which types of garbage to get pickup dates for.
+
+You can create 2 extra sensors which hold the type of garbage to pickup today and tomorrow:
+```
+  - platform: template
+    sensors:
+      afval_vandaag:
+        friendly_name: 'Afval Vandaag'
+        value_template: >-
+          {% if is_state_attr('sensor.hvc_groep_gft', 'day', 'Vandaag') %}
+              Groene Bak GFT
+          {% elif is_state_attr('sensor.hvc_groep_papier', 'day', 'Vandaag') %}
+              Blauwe Bak Papier
+          {% elif is_state_attr('sensor.hvc_groep_plastic', 'day', 'Vandaag') %}
+              Zakken Plastic
+          {% elif is_state_attr('sensor.hvc_groep_restafval', 'day', 'Vandaag') %}
+              Grijze Bak Restafval
+          {% else %}
+              Geen
+          {% endif %}
+          
+  - platform: template
+    sensors:
+      afval_morgen:
+        friendly_name: 'Afval Morgen'
+        value_template: >-
+          {% if is_state_attr('sensor.hvc_groep_gft', 'day', 'Morgen') %}
+              Groene Bak GFT
+          {% elif is_state_attr('sensor.hvc_groep_papier', 'day', 'Morgen') %}
+              Blauwe Bak Papier
+          {% elif is_state_attr('sensor.hvc_groep_plastic', 'day', 'Morgen') %}
+              Zakken Plastic
+          {% elif is_state_attr('sensor.hvc_groep_restafval', 'day', 'Morgen') %}
+              Grijze Bak Restafval
+          {% else %}
+              Geen
+          {% endif %}
+```
+
+And you can group them like so:
+```
+Afval Ophaaldagen:
+  - sensor.hvc_groep_gft
+  - sensor.hvc_groep_papier
+  - sensor.hvc_groep_plastic
+  - sensor.hvc_groep_restafval
+  - sensor.afval_vandaag
+  - sensor.afval_morgen
+```
+Thing to fix/add is multiple pickups per day for 'today' and 'tomorrow' sensor.
+
+### Screenshots
+
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/hvcgroep.png "Screenshot HVCGroep")
+
 ## TODO for most of above components
-- Implement better input checks.
-- Add more error handling.
 - Make the components work async.
