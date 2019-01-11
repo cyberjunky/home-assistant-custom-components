@@ -18,6 +18,7 @@ Component Overview
   * [arp-scan Device Tracker component](#arp-scan-device-tracker-component)
   * [Plugwise component](#plugwise-component)
   * [TheThingsNetwork Gateway status component](#thethingsnetwork-gateway-status-component)
+  * [HVCGroep Garbage Collect sensor component](#hvcgroep-garbage-collect-sensor-component)
 
 ## TOON Thermostat climate component
 
@@ -666,7 +667,7 @@ TTN Gateway:
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/ttn-gw-status.png "Screenshot TTN Gateway Status")
 
 
-## HVCGroep sensor component
+## HVCGroep Garbage Collect sensor component
 
 Gets garbage pickup dates straight from HVC Groep's rest API.
 
