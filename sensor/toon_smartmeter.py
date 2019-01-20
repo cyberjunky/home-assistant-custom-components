@@ -164,23 +164,23 @@ class ToonSmartMeterSensor(Entity):
             for key in energy:
                 dev = energy[key]
 
-                if dev['type'] == 'gas':
+                if dev['type'] == 'gas' or dev['type'] == 'HAE_METER_v2_1':
                     self._dev_id['gasused'] = key
                     self._dev_id['gasusedcnt'] = key
 
-                if dev['type'] == 'elec_delivered_lt':
+                if dev['type'] == 'elec_delivered_lt' or dev['type'] == 'HAE_METER_v2_5':
                     self._dev_id['elecusageflowlow'] = key
                     self._dev_id['elecusagecntlow'] = key
 
-                if dev['type'] == 'elec_delivered_nt':
+                if dev['type'] == 'elec_delivered_nt' or dev['type'] == 'HAE_METER_v2_3':
                     self._dev_id['elecusageflowhigh'] = key
                     self._dev_id['elecusagecnthigh'] = key
 
-                if dev['type'] == 'elec_received_lt':
+                if dev['type'] == 'elec_received_lt' or dev['type'] == 'HAE_METER_v2_6':
                     self._dev_id['elecprodflowlow'] = key
                     self._dev_id['elecprodcntlow'] = key
 
-                if dev['type'] == 'elec_received_nt':
+                if dev['type'] == 'elec_received_nt' or dev['type'] == 'HAE_METER_v2_4':
                     self._dev_id['elecprodflowhigh'] = key
                     self._dev_id['elecprodcnthigh'] = key
 
