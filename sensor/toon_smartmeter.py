@@ -189,7 +189,7 @@ class ToonSmartMeterSensor(Entity):
         """Go to http://toon.ip:port/hdrv_zwave?action=getDevices.json and search for dev_"""
         if self.type == 'gasused':
             if self.type in self._dev_id:
-                self._state = float(energy[self._dev_id[self.type]]["CurrentGasFlow"])/100
+                self._state = float(energy[self._dev_id[self.type]]["CurrentGasFlow"])/1000
 
         elif self.type == 'gasusedcnt':
             if self.type in self._dev_id:
