@@ -705,36 +705,39 @@ You can create 2 extra sensors which hold the type of garbage to pickup today an
   - platform: template
     sensors:
       afval_vandaag:
-        friendly_name: 'Afval Vandaag'
+        friendly_name: 'Vandaag'
         value_template: >-
           {% if is_state_attr('sensor.hvc_groep_gft', 'day', 'Vandaag') %}
-              Groene Bak GFT
-          {% elif is_state_attr('sensor.hvc_groep_papier', 'day', 'Vandaag') %}
-              Blauwe Bak Papier
-          {% elif is_state_attr('sensor.hvc_groep_plastic', 'day', 'Vandaag') %}
-              Zakken Plastic
-          {% elif is_state_attr('sensor.hvc_groep_restafval', 'day', 'Vandaag') %}
-              Grijze Bak Restafval
-          {% else %}
-              Geen
+          {% set gft = 'Groene Bak' %}
           {% endif %}
-          
+          {% if is_state_attr('sensor.hvc_groep_papier', 'day', 'Vandaag') %}
+          {% set papier = 'Blauwe Bak' %}
+          {% endif %}
+          {% if is_state_attr('sensor.hvc_groep_plastic', 'day', 'Vandaag') %}
+          {% set plastic = 'Plastic' %}
+          {% endif %}
+          {% if is_state_attr('sensor.hvc_groep_restafval', 'day', 'Vandaag') %}
+          {% set restafval = 'Grijze Bak' %}
+          {% endif %}
+             {{gft}} {{papier}} {{plastic}} {{restafval}}
+
   - platform: template
     sensors:
       afval_morgen:
-        friendly_name: 'Afval Morgen'
+        friendly_name: 'Morgen'
         value_template: >-
           {% if is_state_attr('sensor.hvc_groep_gft', 'day', 'Morgen') %}
-              Groene Bak GFT
+          {% set gft = 'Groene Bak' %}
           {% elif is_state_attr('sensor.hvc_groep_papier', 'day', 'Morgen') %}
-              Blauwe Bak Papier
-          {% elif is_state_attr('sensor.hvc_groep_plastic', 'day', 'Morgen') %}
-              Zakken Plastic
-          {% elif is_state_attr('sensor.hvc_groep_restafval', 'day', 'Morgen') %}
-              Grijze Bak Restafval
-          {% else %}
-              Geen
+          {% set papier = 'Blauwe Bak' %}
+          {% if is_state_attr('sensor.hvc_groep_plastic', 'day', 'Morgen') %}
+          {% set plastic = 'Plastic' %}
           {% endif %}
+          {% if is_state_attr('sensor.hvc_groep_restafval', 'day', 'Morgen') %}
+          {% endif %}
+          {% set restafval = 'Grijze Bak' %}
+          {% endif %}
+             {{gft}} {{papier}} {{plastic}} {{restafval}}
 ```
 
 And you can group them like so:
