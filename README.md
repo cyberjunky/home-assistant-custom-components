@@ -548,7 +548,7 @@ And it must be made async so it plays nice when it cannot reach a plug it querie
 ### Installation
 
 - Copy file `switch/plugwise.py` to your `ha_config_dir/custom-components/switch` directory.
-- It has dependency the 'plugwise' module from PyPi but it will be installed automatically.
+- It has as dependency the 'plugwise' module from PyPi, but it will be installed automatically.
 - Configure with config below.
 - Restart Home-Assistant.
 
