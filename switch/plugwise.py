@@ -5,16 +5,15 @@ For more details about this platform, please refer to the documentation at
 https://home-assistant.io/components/switch.plugwise/
 """
 import logging
-
 import voluptuous as vol
 
 from homeassistant.components.switch import (SwitchDevice, PLATFORM_SCHEMA)
 from homeassistant.const import (CONF_PORT)
 import homeassistant.helpers.config_validation as cv
 from homeassistant.const import STATE_UNKNOWN
-
 from serial.serialutil import SerialException
-from plugwise import *
+
+REQUIREMENTS = ['plugwise==0.7']
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -36,10 +35,11 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup Plugwise."""
+    import plugwise
 
     # Connect to the plugwise stick
     try:
-        stick = Stick(config.get(CONF_PORT))
+        stick = plugwise.Stick(config.get(CONF_PORT))
         _LOGGER.info("Connected to Plugwise stick")
     except (TimeoutException, SerialException) as reason:
         _LOGGER.error("Error: %s" % (reason,))
@@ -122,22 +122,24 @@ class PlugwiseSwitchData(object):
 
     def update(self):
         """Get the latest data from the plugwise circles."""
+        import plugwise
 
-        self.current_consumption = Circle(self.mac, self.stick).get_power_usage()
+        self.current_consumption = plugwise.Circle(self.mac, self.stick).get_power_usage()
         _LOGGER.debug("Current Consumption: %s", self.current_consumption)
 
-        self.getinfo = Circle(self.mac, self.stick).get_info()
+        self.getinfo = plugwise.Circle(self.mac, self.stick).get_info()
         self.state = self.getinfo['relay_state']
         self.fwversion = self.getinfo['fw_ver']
         self.datetime = self.getinfo['datetime']
         _LOGGER.debug("Relay State: %s", self.state)
-
         return
 
     def switch_on(self):
         """Turn the switch on."""
-        Circle(self.mac, self.stick).switch_on()
+        import plugwise
+        plugwise.Circle(self.mac, self.stick).switch_on()
 
     def switch_off(self):
         """Turn the switch off."""
-        Circle(self.mac, self.stick).switch_off()
+        import plugwise
+        plugwise.Circle(self.mac, self.stick).switch_off()
