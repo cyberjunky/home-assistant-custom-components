@@ -597,7 +597,7 @@ And it must be made async so it plays nice when it cannot reach a plug it querie
 ### Installation
 
 - Copy file `switch/plugwise.py` to your `ha_config_dir/custom-components/switch` directory.
-- It has this dependency: python-plugwise, which can be found at https://bitbucket.org/hadara/python-plugwise/wiki/Home
+- It has as dependency the 'plugwise' module from PyPi, but it will be installed automatically.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -633,6 +633,7 @@ If you want to graph power consumption values you can convert the attribute of t
       unit_of_measurement: 'Watt'
       value_template: "{{ states.switch.circleplus.attributes.current_consumption }}"
 ```
+NOTE: works in Hass.io
 
 ### Screenshots
 
