@@ -413,13 +413,13 @@ Above is for html5 nofity, you can click the notify message to open google maps 
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/p2000multi.png "Screenshot")
 
 NOTE: When migrating from old P2000 platform component do the following:
-Delete custom_components/p2000.py
-Copy sensor/p2000.py to custom_components/sensor
-Change your configuration entry move p2000: to sensor section.
-Give platform name p2000.
-Rename 'distance' to 'radius' and 'interval' to 'scan_interval'.
-Add optional extra sensors with different lat/lon and regios/disciplines entries.
-Change automation to use state triggers instead of event trigger.
+- Delete custom_components/p2000.py
+- Copy sensor/p2000.py to custom_components/sensor
+- Change your configuration entry move p2000: to sensor section.
+- Give platform name p2000.
+- Rename 'distance' to 'radius' and 'interval' to 'scan_interval'.
+- Add optional extra sensors with different lat/lon and regios/disciplines entries.
+- Change automation to use state triggers instead of event trigger.
 
 Lovelace cards:
 
