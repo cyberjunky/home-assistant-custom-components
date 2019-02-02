@@ -307,9 +307,9 @@ Configuration variables:
 
 ## P2000 Emergency Services component
 
-This component queries the portal http://feeds.livep2000.nl every interval minutes, and check it's output against the parameters set in the config.
+This component queries the portal http://feeds.livep2000.nl every interval seconds, and check it's output against the parameters set in the config.
 It's only based on Dutch services.
-When matched service calls are found an event is triggered, which you can use in automation rule. (see example below)
+When matched service calls are found the sensor state gets filled, so you can trigger automation, display sensor data, and even plot in on map (see example below)
 
 ### Installation
 - Install required python libraries
@@ -319,7 +319,7 @@ NOTE: this step can be skipped when using hass.io
 $ pip3 install geopy
 $ pip3 install feedparser
 ```
-- Copy file `p2000.py` to your `ha_config_dir/custom_components` directory.
+- Copy file `p2000.py` to your `ha_config_dir/custom_components/sensor` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -329,11 +329,21 @@ To use this component in your installation, add the following to your `configura
 ```yaml
 # Example configuration.yaml entry
 
-p2000:
+sensor:
+  - platform: p2000
     regios: 18
-    disciplines: 1,2,3
-    distance: 5000
-    interval: 30
+    disciplines: 1,2,3,4
+    radius: 15000
+    scan_interval: 20
+  
+  - platform: p2000
+    name: Amsterdam
+    regios: 13
+    disciplines: 1,2,3,4
+    radius: 10000
+    scan_interval: 10
+    latitude: 52.3680
+    longitude: 4.9036
 ```
 
 Configuration variables:
@@ -369,29 +379,68 @@ Configuration variables:
  * 2 = Ambulance
  * 3 = Politie
  * 4 = KNRM
-- **distance** (*Optional*): Only display on calls within this range in meters, it uses the lat/lon from your home-assistant.conf file as center. (default = 5000)
-- **interval** (*Optional*): Check every x seconds. (default = 30)
+- **radius** (*Optional*): Only display on calls within this range in meters, it uses the lat/lon from your home-assistant.conf file as center or the optional values. (default = 5000)
+- **scan_interval** (*Optional*): Check every x seconds. (default = 30)
+- **lat** (*Optional*): Latitude of center radius.
+- **lon** (*Optional*): Longitude of center radius.
 
-It triggers only on new messages, at a home-assistant restart, old messages are skipped.
+It triggers only on new messages, at a home-assistant restart old messages are skipped.
 
-You can use the triggered event to send a push notification like this:
+You can use a state trigger event to send a push notification like this:
 ```yaml
 # Example automation.yaml entry
 
-- alias: P2000 Notify
-  trigger:
-    platform: event
-    event_type: p2000
-  action:
-  - service_template: notify.pushover
-    data_template:
-      title: "P2000"
-      message: "{{ trigger.event.data.text }}"
+automation:
+  - alias: 'P2000 Bericht'
+    trigger:
+      platform: state
+      entity_id: sensor.p2000
+    action:
+      - service_template: notify.html5
+        data_template:
+          title: "P2000 Bericht"
+          message: "{{ states.sensor.p2000.state}}"
+          data:
+            url: "https://www.google.com/maps/search/?api=1&query={{ states.sensor.p2000.attributes.latitude }},{{ states.sensor.p2000.attributes.longitude }}"
 ```
 
-### Screenshot
+Above is for html5 nofity, you can click the notify message to open google maps with the lat/lon location if available in the p2000 message.
 
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/p2000-notify.png "Screenshot")
+### Screenshots
+
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/p2000sensor.png "Screenshot")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/p2000map.png "Screenshot")
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/p2000multi.png "Screenshot")
+
+NOTE: When migrating from old P2000 platform component do the following:
+Delete custom_components/p2000.py
+Copy sensor/p2000.py to custom_components/sensor
+Change your configuration entry move p2000: to sensor section.
+Give platform name p2000.
+Rename 'distance' to 'radius' and 'interval' to 'scan_interval'.
+Add optional extra sensors with different lat/lon and regios/disciplines entries.
+Change automation to use state triggers instead of event trigger.
+
+Lovelace cards:
+
+```yaml
+cards:
+      - entity: sensor.p2000
+        icon: 'mdi:ambulance'
+        name: P2000 Dordrecht
+        type: sensor
+      - entity: sensor.amsterdam
+        icon: 'mdi:fire-truck'
+        name: P2000 Amsterdam
+        type: sensor
+      - default_zoom: 7
+        entities:
+          - entity: sensor.p2000
+          - entity: zone.home
+          - entity: sensor.amsterdam
+        title: P2000 Dordrecht & Amsterdam
+        type: map
+```
 
 
 ## Fritzbox_callmonitor Notification example
