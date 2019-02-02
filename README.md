@@ -312,13 +312,6 @@ It's only based on Dutch services.
 When matched service calls are found the sensor state gets filled, so you can trigger automation, display sensor data, and even plot in on map (see example below)
 
 ### Installation
-- Install required python libraries
-NOTE: this step can be skipped when using hass.io
-
-```
-$ pip3 install geopy
-$ pip3 install feedparser
-```
 - Copy file `p2000.py` to your `ha_config_dir/custom_components/sensor` directory.
 - Configure with config below.
 - Restart Home-Assistant.
