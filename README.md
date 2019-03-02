@@ -19,7 +19,8 @@ Component Overview
   * [Plugwise component](#plugwise-component)
   * [TheThingsNetwork Gateway status component](#thethingsnetwork-gateway-status-component)
   * [HVCGroep Garbage Collect sensor component](#hvcgroep-garbage-collect-sensor-component)
-
+  * [Volkswagen Carnet component](#volkswagen-carnet-component)
+ 
 ## TOON Thermostat climate component
 
 NOTE: This component only works with rooted TOON devices.
@@ -799,6 +800,44 @@ Thing to fix/add is multiple pickups per day for 'today' and 'tomorrow' sensor.
 ### Screenshots
 
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/hvcgroep.png "Screenshot HVCGroep")
+
+## Volkswagen Carnet component
+
+Cloned from https://github.com/robinostlund/homeassistant-volkswagencarnet
+
+So all credits to Robin Ostlund.
+
+I stripped out non supported stuff to get it to work with my VW T-ROC.
+
+This also needs modified a volkswagencarnet python module!
+
+```yaml
+# Example configuration.yaml entry
+
+volkswagencarnet:
+    username: your@email.address
+    password: yourpassword
+    update_interval: 
+      minutes: 5
+    resources:
+      - last_connected
+      - position
+      - distance
+      - fuel_level
+      - service_inspection
+      - oil_inspection
+      - parking_light
+      - doors_locked
+      - trunk_locked
+      - combined_range
+```
+
+Configuration variables:
+
+- **username** (*Required*): Your email address for carnet portal.
+- **password** (*Required*): Your password for carnet portal.
+- **minutes** (*Required*): Update every x minutes, minimum is 3.
+- **resources** (*Required*): Values to fetch.
 
 ## TODO for most of above components
 - Make the components work async.
