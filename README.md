@@ -33,7 +33,7 @@ You can also control the thermostat Mode and Setpoint. (target temperature)
 
 ### Installation
 
-- Copy directory `toon` to your `ha_config_dir/custom_components` directory.
+- Copy directory `toon` to your `<config dir>/custom_components` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -71,7 +71,7 @@ It reads Smart Meter data from your TOON, gathered by the meteradapter.
 
 ### Installation
 
-- Copy directory `toon_smartmeter` to your `ha_config_dir/custom_components` directory.
+- Copy directory `toon_smartmeter` to your `<config dir>/custom_components` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -152,7 +152,7 @@ It reads OpenTherm Boiler data from your TOON, gathered by the thermostat adapte
 
 ### Installation
 
-- Copy directory `toon_boilerstatus` to your `ha_config_dir/custom_components` directory.
+- Copy directory `toon_boilerstatus` to your `<config dir>/custom_components` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -214,7 +214,7 @@ I have a Omnik inverter and so I'm using it with omnikportal, only one I tested 
 
 ### Installation
 
-- Copy directory `solarportal` to your `ha_config_dir/custom_components` directory.
+- Copy directory `solarportal` to your `<config dir>/custom_components` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -283,7 +283,7 @@ So this is what this component does and combine them into one sensor.
 
 ### Installation
 
-- Copy directory `bf1stats` to your `ha_config_dir/custom_components` directory.
+- Copy directory `bf1stats` to your `<config dir>/custom_components` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -312,7 +312,7 @@ It's only based on Dutch services.
 When matched service calls are found the sensor state gets filled, so you can trigger automation, display sensor data, and even plot in on map (see example below)
 
 ### Installation
-- Copy directory `p2000` to your `ha_config_dir/custom_components` directory.
+- Copy directory `p2000` to your `<config dir>/custom_components` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -407,8 +407,8 @@ Above is for html5 nofity, you can click the notify message to open google maps 
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/p2000multi.png "Screenshot")
 
 NOTE: When migrating from old P2000 platform component do the following:
-- Delete custom_components/p2000.py
-- Copy p2000 directory to custom_components
+- Delete <config dir>/custom_components/p2000.py
+- Copy p2000 directory to <config dir>/custom_components
 - Change your configuration entry move p2000: to sensor section.
 - Give platform name p2000.
 - Rename 'distance' to 'radius' and 'interval' to 'scan_interval'.
@@ -489,8 +489,8 @@ And outside temperature based.
 
 ### Installation
 
-- Copy file `remarks.py` to your `ha_config_dir/custom_components` directory.
-- Copy the data directory `remarks` to your `ha_config_dir` directory.
+- Copy file `remarks.py` to your `<config dir>/custom_components` directory.
+- Copy the data directory `remarks` to your `<config dir>` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -547,7 +547,7 @@ This component tracks devices using the arp-scan command, it's very fast, and re
 
 ### Installation
 
-- Copy directory `arpscan_tracker` to your `ha_config_dir/custom_components` directory.
+- Copy directory `arpscan_tracker` to your `<config dir>/custom_components` directory.
 - Install the arp-scan command and set it's sticky bit, so it can be run as root.
 ```
 $ sudo apt-get install arp-scan
@@ -590,7 +590,7 @@ And it must be made async so it plays nice when it cannot reach a plug it querie
 
 ### Installation
 
-- Copy directory `plugwise` to your `ha_config_dir/custom-components` directory.
+- Copy directory `plugwise` to your `<config dir>/custom-components` directory.
 - It has as dependency the 'plugwise' module from PyPi, but it will be installed automatically.
 - Configure with config below.
 - Restart Home-Assistant.
@@ -642,7 +642,7 @@ This component can read status values from a local TTN Gateway.
 
 ### Installation
 
-- Copy directory `ttn_gateway` to your `ha_config_dir/custom-components` directory.
+- Copy directory `ttn_gateway` to your `<config dir>/custom-components` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -717,7 +717,7 @@ Gets garbage pickup dates straight from HVC Groep's rest API.
 
 ### Installation
 
-- Copy directory `hvcgroep` to your `ha_config_dir/custom_components` directory.
+- Copy directory `hvcgroep` to your `<config dir>/custom_components` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
