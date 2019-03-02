@@ -809,7 +809,7 @@ So all credits to Robin Ostlund.
 
 I stripped out non supported stuff to get it to work with my VW T-ROC.
 
-This also needs modified a volkswagencarnet python module!
+This also needs a modified volkswagencarnet python module!
 
 ```yaml
 # Example configuration.yaml entry
