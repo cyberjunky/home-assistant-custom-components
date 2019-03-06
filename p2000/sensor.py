@@ -18,7 +18,7 @@ import homeassistant.util as util
 from homeassistant.util import Throttle
 import homeassistant.helpers.config_validation as cv
 
-REQUIREMENTS = ['feedparser']
+REQUIREMENTS = ['geopy','feedparser']
 
 _LOGGER = logging.getLogger(__name__)
 _RESOURCE = 'https://feeds.livep2000.nl?r={}&d={}'
