@@ -11,14 +11,14 @@ import voluptuous as vol
 from homeassistant.components.sensor import PLATFORM_SCHEMA
 from homeassistant.const import (CONF_NAME, STATE_UNKNOWN, ATTR_ATTRIBUTION,
      ATTR_LONGITUDE, ATTR_LATITUDE, CONF_LONGITUDE, CONF_LATITUDE,
-     CONF_SCAN_INTERVAL, CONF_RADIUS)
+     CONF_RADIUS)
 
 from homeassistant.helpers.entity import Entity
 import homeassistant.util as util
 from homeassistant.util import Throttle
 import homeassistant.helpers.config_validation as cv
 
-REQUIREMENTS = ['geopy','feedparser']
+REQUIREMENTS = ['feedparser']
 
 _LOGGER = logging.getLogger(__name__)
 _RESOURCE = 'https://feeds.livep2000.nl?r={}&d={}'
@@ -34,35 +34,28 @@ DEFAULT_RADIUS_IN_MTR = 5000
 MIN_TIME_BETWEEN_UPDATES = datetime.timedelta(seconds=10)
 SCAN_INTERVAL = datetime.timedelta(seconds=30)
 
-PLATFORM_SCHEMA = vol.Schema({
+PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
         vol.Required(CONF_REGIOS): cv.string,
         vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
         vol.Optional(CONF_DISCIPLINES, default=DEFAULT_DISCIPLINES): cv.string,
         vol.Optional(CONF_RADIUS, default=DEFAULT_RADIUS_IN_MTR): vol.Coerce(float),
         vol.Optional(CONF_LATITUDE): cv.latitude,
         vol.Optional(CONF_LONGITUDE): cv.longitude,
-}, extra=vol.ALLOW_EXTRA)
+})
 
-
-# pylint: disable=unused-argument
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Set up the P2000 sensor."""
 
     name = config.get(CONF_NAME)
     regios = config.get(CONF_REGIOS)
     disciplines = config.get(CONF_DISCIPLINES)
-    scan_interval = config.get(CONF_SCAN_INTERVAL, SCAN_INTERVAL)
-    coordinates = (config.get(CONF_LATITUDE, hass.config.latitude),
-                   config.get(CONF_LONGITUDE, hass.config.longitude))
+    latitude = util.convert(config.get(CONF_LATITUDE, hass.config.latitude), float)
+    longitude = util.convert(config.get(CONF_LONGITUDE, hass.config.longitude), float)
     radius_in_mtr = config[CONF_RADIUS]
-
-    # latitude = util.convert(hass.config.latitude, float)
-    # longitude = util.convert(hass.config.longitude, float)
     url = _RESOURCE.format(regios, disciplines)
 
     try:
-        #data = P2000Data(url, distance, latitude, longitude, interval, hass)
-        data = P2000Data(hass, scan_interval, coordinates, url, radius_in_mtr)
+        data = P2000Data(hass, latitude, longitude, url, radius_in_mtr)
         data.update()
     except requests.exceptions.HTTPError as error:
         _LOGGER.error(error)
@@ -72,7 +65,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 
 
 class P2000Sensor(Entity):
-    """Representation of a P2000 sensor."""
+    """Representation of a P2000 Sensor."""
 
     def __init__(self, data, name):
         """Initialize a P2000 sensor."""
@@ -113,14 +106,10 @@ class P2000Sensor(Entity):
         _LOGGER.debug("State updated to %s", self.data.data)
 
 
-# pylint: disable=too-few-public-methods
 class P2000Data(object):
     """Get data from P2000 feed."""
 
-    # pylint: disable=too-many-instance-attributes
-    # pylint: disable=too-many-arguments
-    # Seven is reasonable in this case.
-    def __init__(self, hass, scan_interval, coordinates, url, radius_in_mtr):
+    def __init__(self, hass, latitude, longitude, url, radius_in_mtr):
         """Initialize the data object."""
         self._url = url
         self._maxdist = radius_in_mtr
@@ -128,12 +117,12 @@ class P2000Data(object):
         self._lastmsg_time = None
         self._restart = True
         self._hass = hass
-        self._lat = coordinates[0]
-        self._lon = coordinates[1]
+        self._lat = latitude
+        self._lon = longitude
         self._msgtxt = None
         self.data = None
-        self.latitude = None
-        self.longitude = None
+        self.latitude = 0.0
+        self.longitude = 0.0
         self.distance = None
         self.msgtime = None
 
