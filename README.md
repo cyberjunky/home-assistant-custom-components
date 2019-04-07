@@ -2,6 +2,8 @@
 
 Some of my custom components for home-assistant. (http://www.home-assistant.io)
 
+[![Buy me a coffee via PayPal](https://cdn.rawgit.com/twolfson/paypal-github-button/1.0.0/dist/button.svg)](https://www.paypal.me/cyberjunkynl/)
+
 Component Overview
 ------------------
   * [TOON Thermostat climate component](#toon-thermostat-climate-component)
@@ -205,6 +207,25 @@ Boiler Status:
 
 
 ## SolarPortal sensor component
+
+NOTE: API seem to have changed, need new reverse engineering!
+
+> Dear Customers,
+
+> Omnik old version APP has removed,and no running anymore. Please 
+> download new APP version (Omnik Portal) from the App Store.
+
+> If you use Android system, please go to Google play download:
+> "Omnik Portal" 
+> https://play.google.com/store/apps/details?id=com.jialeinfo.omniksolar&hl=en
+
+> If you use iOS system, please go to iOS App store download:
+> "Omnik Portal" 
+> https://itunes.apple.com/cn/app/id1246117091
+
+> Thank you so much for your notice.
+
+> Omnik Team
 
 There are several solarpower portals storing you power generation data using the same API.
 You can query the information uploaded by your solarpanels.
