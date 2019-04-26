@@ -44,7 +44,7 @@ To use this component in your installation, add the following to your `configura
 # Example configuration.yaml entry
 
 climate:
-  - platform: toon
+  - platform: toon_custom
     name: Toon Thermostat
     host: IP_ADDRESS
     port: 10080
