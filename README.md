@@ -33,7 +33,7 @@ You can also control the thermostat Mode and Setpoint. (target temperature)
 
 ### Installation
 
-- Copy directory `toon` to your `<config dir>/custom_components` directory.
+- Copy directory `toon_climate` to your `<config dir>/custom_components` directory.
 - Configure with config below.
 - Restart Home-Assistant.
 
@@ -44,7 +44,7 @@ To use this component in your installation, add the following to your `configura
 # Example configuration.yaml entry
 
 climate:
-  - platform: toon
+  - platform: toon_climate
     name: Toon Thermostat
     host: IP_ADDRESS
     port: 10080
