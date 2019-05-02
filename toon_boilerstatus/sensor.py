@@ -150,32 +150,40 @@ class ToonBoilerStatusSensor(Entity):
         boilerstatus = self.data.data
 
         if 'sampleTime' in boilerstatus:
+          if boilerstatus["sampleTime"] is not None:
             self._last_updated = boilerstatus["sampleTime"]
 
         if self.type == 'boilersetpoint':
-            if 'boilerSetpoint' in boilerstatus:
-                self._state = float(boilerstatus["boilerSetpoint"])
+          if 'boilerSetpoint' in boilerstatus:
+            if boilerstatus["boilerSetpoint"] is not None:
+              self._state = float(boilerstatus["boilerSetpoint"])
 
         elif self.type == 'boilerintemp':
-            if 'boilerInTemp' in boilerstatus:
-                self._state = float(boilerstatus["boilerInTemp"])
+          if 'boilerInTemp' in boilerstatus:
+            if boilerstatus["boilerInTemp"] is not None:
+              self._state = float(boilerstatus["boilerInTemp"])
 
         elif self.type == 'boilerouttemp':
-            if 'boilerOutTemp' in boilerstatus:
-                self._state = float(boilerstatus["boilerOutTemp"])
+          if 'boilerOutTemp' in boilerstatus:
+            if boilerstatus["boilerOutTemp"] is not None:
+              self._state = float(boilerstatus["boilerOutTemp"])
 
         elif self.type == 'boilerpressure':
-            if 'boilerPressure' in boilerstatus:
-                self._state = float(boilerstatus["boilerPressure"])
+          if 'boilerPressure' in boilerstatus:
+            if boilerstatus["boilerPressure"] is not None:
+              self._state = float(boilerstatus["boilerPressure"])
 
         elif self.type == 'boilermodulationlevel':
-            if 'boilerModulationLevel' in boilerstatus:
-                self._state = float(boilerstatus["boilerModulationLevel"])
+          if 'boilerModulationLevel' in boilerstatus:
+            if boilerstatus["boilerModulationLevel"] is not None:
+              self._state = float(boilerstatus["boilerModulationLevel"])
 
         elif self.type == 'roomtemp':
-            if 'roomTemp' in boilerstatus:
-                self._state = float(boilerstatus["roomTemp"])
+          if 'roomTemp' in boilerstatus:
+            if boilerstatus["roomTemp"] is not None:
+              self._state = float(boilerstatus["roomTemp"])
 
         elif self.type == 'roomtempsetpoint':
-            if 'roomTempSetpoint' in boilerstatus:
-                self._state = float(boilerstatus["roomTempSetpoint"])
+          if 'roomTempSetpoint' in boilerstatus:
+            if boilerstatus["roomTempSetpoint"] is not None:
+              self._state = float(boilerstatus["roomTempSetpoint"])
