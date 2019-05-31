@@ -5,7 +5,7 @@ Only the rooted version.
 configuration.yaml
 
 climate:
-  - platform: toon
+  - platform: toon_climate
     name: Toon Thermostat
     host: IP_ADDRESS
     port: 10080
