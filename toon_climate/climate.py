@@ -16,14 +16,14 @@ import json
 import voluptuous as vol
 
 from homeassistant.components.climate import (ClimateDevice, PLATFORM_SCHEMA)
-from homeassistant.components.climate.const import (SUPPORT_TARGET_TEMPERATURE, SUPPORT_OPERATION_MODE)
+from homeassistant.components.climate.const import (SUPPORT_TARGET_TEMPERATURE, SUPPORT_OPERATION_MODE, SUPPORT_ON_OFF)
 from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_PORT,
                                  TEMP_CELSIUS, ATTR_TEMPERATURE)
 import homeassistant.helpers.config_validation as cv
 
 import requests
 
-SUPPORT_FLAGS = SUPPORT_TARGET_TEMPERATURE | SUPPORT_OPERATION_MODE
+SUPPORT_FLAGS = SUPPORT_TARGET_TEMPERATURE | SUPPORT_OPERATION_MODE | SUPPORT_ON_OFF
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -32,6 +32,7 @@ DEFAULT_TIMEOUT = 5
 BASE_URL = 'http://{0}:{1}{2}'
 
 ATTR_MODE = 'mode'
+ATTR_HEATING_SCHEME_ACTIVE = 'program active'
 STATE_MANUAL = 'manual'
 STATE_UNKNOWN = 'unknown'
 
@@ -59,6 +60,7 @@ class ThermostatDevice(ClimateDevice):
         self._name = name
         self._host = host
         self._port = port
+        self._is_on = False
         self._current_temp = None
         self._current_setpoint = None
         self._current_state = -1
@@ -98,6 +100,7 @@ class ThermostatDevice(ClimateDevice):
         self._current_setpoint = int(self._data['currentSetpoint'])/100
         self._current_temp = int(self._data['currentTemp'])/100
         self._current_state = int(self._data['activeState'])
+        self._is_on = int(self._data['programState'])
         _LOGGER.debug("Update called")
 
     @property
@@ -114,7 +117,8 @@ class ThermostatDevice(ClimateDevice):
     def device_state_attributes(self):
         """Return the device specific state attributes."""
         return {
-            ATTR_MODE: self._current_state
+            ATTR_MODE: self._current_state,
+            ATTR_HEATING_SCHEME_ACTIVE: self._is_on
         }
 
     @property
@@ -133,6 +137,11 @@ class ThermostatDevice(ClimateDevice):
         return self._current_setpoint
 
     @property
+    def is_on(self):
+       """Return true if on"""
+       return True if (self._is_on == 1) else False
+      
+    @property
     def current_operation(self):
         """Return the current state of the thermostat."""
         state = self._current_state
@@ -147,7 +156,25 @@ class ThermostatDevice(ClimateDevice):
     def operation_list(self):
         """List of available operation modes."""
         return self._operation_list
+      
+    def turn_on(self):
+        """Turns on the Toon's heating program."""
+        self._data = self.do_api_request(BASE_URL.format(
+            self._host,
+            self._port,
+            '/happ_thermstat?action=changeSchemeState'
+            '&state=1'))
+        _LOGGER.debug("Turning on Toon's heating program")
 
+    def turn_off(self):
+        """Turns off the Toon's heating program."""
+        self._data = self.do_api_request(BASE_URL.format(
+            self._host,
+            self._port,
+            '/happ_thermstat?action=changeSchemeState'
+            '&state=0'))
+        _LOGGER.debug("Turning off Toon's heating program")
+      
     def set_operation_mode(self, operation_mode):
         """Set HVAC mode (comfort, home, sleep, away, holiday)."""
         if operation_mode == "Comfort":
