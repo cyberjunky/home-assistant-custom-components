@@ -100,7 +100,7 @@ class ThermostatDevice(ClimateDevice):
         self._current_setpoint = int(self._data['currentSetpoint'])/100
         self._current_temp = int(self._data['currentTemp'])/100
         self._current_state = int(self._data['activeState'])
-        self._is_on = int(self._data['programState'])
+        self._is_on = 0 if int(self._data['nextState']) == -1 else 1
         _LOGGER.debug("Update called")
 
     @property
