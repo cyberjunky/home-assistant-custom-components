@@ -16,14 +16,24 @@ import json
 import voluptuous as vol
 
 from homeassistant.components.climate import (ClimateDevice, PLATFORM_SCHEMA)
-from homeassistant.components.climate.const import (SUPPORT_TARGET_TEMPERATURE, SUPPORT_OPERATION_MODE)
+from homeassistant.components.climate.const import (SUPPORT_TARGET_TEMPERATURE,
+                                                    SUPPORT_PRESET_MODE,
+                                                    PRESET_AWAY,
+                                                    PRESET_HOME,
+                                                    PRESET_SLEEP,
+                                                    HVAC_MODE_HEAT,
+                                                    HVAC_MODE_OFF)
 from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_PORT,
                                  TEMP_CELSIUS, ATTR_TEMPERATURE)
 import homeassistant.helpers.config_validation as cv
 
 import requests
 
-SUPPORT_FLAGS = SUPPORT_TARGET_TEMPERATURE | SUPPORT_OPERATION_MODE
+SUPPORT_FLAGS = SUPPORT_TARGET_TEMPERATURE | SUPPORT_PRESET_MODE
+
+SUPPORT_PRESETS = [PRESET_AWAY, PRESET_HOME, PRESET_SLEEP]
+
+SUPPORT_MODES = [HVAC_MODE_HEAT, HVAC_MODE_OFF]
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -181,3 +191,29 @@ class ThermostatDevice(ClimateDevice):
                 '/happ_thermstat?action=setSetpoint'
                 '&Setpoint='+str(temperature)))
             _LOGGER.debug("Set temperature=%s", str(temperature))
+
+    @property
+    def hvac_mode(self):
+        """Return the current operation mode."""
+        return HVAC_MODE_HEAT
+
+    @property
+    def hvac_modes(self):
+        """Return the list of available operation modes."""
+        return SUPPORT_MODES
+
+    @property
+    def preset_mode(self):
+        """Return preset modes."""
+        state = self._current_state
+        if state in (0, 1, 2, 3, 4):
+            return self._operation_list[state]
+        elif state == -1:
+            return STATE_MANUAL
+        else:
+            return STATE_UNKNOWN
+
+    @property
+    def preset_modes(self):
+        """List of available preset modes."""
+        return SUPPORT_PRESETS
