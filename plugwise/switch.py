@@ -13,8 +13,6 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.const import STATE_UNKNOWN
 from serial.serialutil import SerialException
 
-REQUIREMENTS = ['plugwise==0.7']
-
 _LOGGER = logging.getLogger(__name__)
 
 DEFAULT_PORT = '/dev/ttyUSB0'
