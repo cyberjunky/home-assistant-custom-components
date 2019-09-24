@@ -568,6 +568,8 @@ This component tracks devices using the arp-scan command, it's very fast, and re
 
 - Copy directory `arpscan_tracker` to your `<config dir>/custom_components` directory.
 - Install the arp-scan command and set it's sticky bit, so it can be run as root.
+
+  **NOTE: This is not needed on Hass.io, it contains the arp-scan command already.**
 ```
 $ sudo apt-get install arp-scan
 $ sudo chmod +s /usr/bin/arp-scan
