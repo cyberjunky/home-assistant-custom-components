@@ -2,7 +2,7 @@
 Support for scanning a network with arp-scan.
 
 For more details about this platform, please refer to the documentation at
-https://home-assistant.io/components/device_tracker.arpscan_tracker/
+https://github.com/cyberjunky/hass-arpscan_tracker/
 """
 import logging
 import re
@@ -36,10 +36,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def get_scanner(hass, config):
     """Validate the configuration and return a ArpScan scanner."""
-    scanner = ArpScanDeviceScanner(config[DOMAIN])
-
-    return scanner if scanner.success_init else None
-
+    return ArpScanDeviceScanner(config[DOMAIN])
 
 Device = namedtuple('Device', ['mac', 'name', 'ip', 'last_update'])
 
@@ -57,33 +54,31 @@ class ArpScanDeviceScanner(DeviceScanner):
         self._options = config[CONF_OPTIONS]
 
         self.success_init = self._update_info()
-        _LOGGER.debug("Init called")
+        _LOGGER.debug("Scanner initialized")
+
 
     def scan_devices(self):
         """Scan for new devices and return a list with found device IDs."""
         self._update_info()
 
-        _LOGGER.debug("Scan devices called")
+        _LOGGER.debug("arpscan last results %s", self.last_results)
+
         return [device.mac for device in self.last_results]
 
-    def get_device_name(self, mac):
-        """Return the name of the given device or None if we don't know."""
-        filter_named = [device.name for device in self.last_results
-                        if device.mac == mac]
 
-        if filter_named:
-            _LOGGER.debug("Filter named called")
-            return filter_named[0]
-        else:
-            return None
+    def get_device_name(self, mac):
+        """Return the name of the given device."""
+        
+        return mac.replace(':', '')
+
 
     @Throttle(MIN_TIME_BETWEEN_SCANS)
     def _update_info(self):
-        """Scan the network for devices.
-
+        """
+        Scan the network for devices.
         Returns boolean if scanning successful.
         """
-        _LOGGER.debug("Update_info called")
+        _LOGGER.debug("Scanning...")
 
         options = self._options
 
@@ -91,6 +86,7 @@ class ArpScanDeviceScanner(DeviceScanner):
         exclude_hosts = self.exclude
 
         scandata = subprocess.getoutput("arp-scan "+options)
+        _LOGGER.debug("Scandata %s", scandata)
 
         now = dt_util.now()
         for line in scandata.splitlines():
@@ -105,11 +101,10 @@ class ArpScanDeviceScanner(DeviceScanner):
                     _LOGGER.debug("Excluded %s", exclude)
                     continue
 
-            name = ipv4
             mac = parts[1]
-            last_results.append(Device(mac, name, ipv4, now))
+            last_results.append(Device(mac, mac.replace(':', ''), ipv4, now))
 
         self.last_results = last_results
 
-        _LOGGER.debug("Update_info successful")
+        _LOGGER.debug("Arpscan successful")
         return True
