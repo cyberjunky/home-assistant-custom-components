@@ -6,6 +6,7 @@ https://home-assistant.io/components/switch.plugwise/
 """
 import logging
 import voluptuous as vol
+import plugwise
 
 from homeassistant.components.switch import (SwitchDevice, PLATFORM_SCHEMA)
 from homeassistant.const import (CONF_PORT)
@@ -33,8 +34,6 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup Plugwise."""
-    import plugwise
-
     # Connect to the plugwise stick
     try:
         stick = plugwise.Stick(config.get(CONF_PORT))

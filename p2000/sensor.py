@@ -7,6 +7,8 @@ import logging
 import datetime
 import requests
 import voluptuous as vol
+import feedparser
+from geopy.distance import vincenty
 
 from homeassistant.components.sensor import PLATFORM_SCHEMA
 from homeassistant.const import (CONF_NAME, STATE_UNKNOWN, ATTR_ATTRIBUTION,
@@ -133,8 +135,6 @@ class P2000Data(object):
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
-        import feedparser
-        from geopy.distance import vincenty
 
         _LOGGER.debug('Fetching data from feed "%s"', self._url)
         try:

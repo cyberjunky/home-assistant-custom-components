@@ -2,6 +2,7 @@
 import logging
 import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
+from volkswagencarnet import Connection
 
 from datetime import timedelta
 from homeassistant.const import (CONF_USERNAME, CONF_PASSWORD, CONF_NAME, CONF_RESOURCES)
@@ -52,7 +53,6 @@ CONFIG_SCHEMA = vol.Schema({
 
 def setup(hass, config):
     """Setup Volkswagen Carnet component"""
-    from volkswagencarnet import Connection
 
     username = config[DOMAIN].get(CONF_USERNAME)
     password = config[DOMAIN].get(CONF_PASSWORD)
