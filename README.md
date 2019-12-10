@@ -62,6 +62,17 @@ Configuration variables:
 
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon.png "Screenshot")
 
+TOON with simple-thermostat in Lovelace
+
+![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-simple.png "TOON simple-thermostat Screenshot")
+
+Using this card:
+```
+   - type: 'custom:simple-thermostat'
+     entity: climate.toon
+     control:
+       - preset
+```
 
 ## TOON Smart Meter sensor component
 
