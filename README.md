@@ -1,8 +1,8 @@
-# Home-Assistant Custom Components
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)  [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/cyberjunkynl/)
+
+# My Home-Assistant Custom Components
 
 Some of my custom components for home-assistant. (http://www.home-assistant.io)
-
-[![Buy me a coffee via PayPal](https://cdn.rawgit.com/twolfson/paypal-github-button/1.0.0/dist/button.svg)](https://www.paypal.me/cyberjunkynl/)
 
 Component Overview
 ------------------
@@ -21,58 +21,10 @@ Component Overview
   * [Volkswagen Carnet component](#volkswagen-carnet-component)
  
 ## TOON Thermostat climate component
+This component provides a climate device for rooted TOON thermostats.
+It lives in it's own HACS compatible repository now.
+https://github.com/cyberjunky/home-assistant-toon_climate
 
-NOTE: This component only works with rooted TOON devices.
-Toon's are Thermostats sold by Eneco a Dutch energy company.
-
-More information about preparing for usage with this component can be found here:
-[Eneco TOON as Domotica controller](http://www.domoticaforum.eu/viewforum.php?f=87)
-
-This component reads the Thermostat Mode, Current Temperature and it's Setpoint.
-You can also control the thermostat Mode and Setpoint. (target temperature)
-
-### Installation
-
-- Copy directory `toon_climate` to your `<config dir>/custom_components` directory.
-- Configure with config below.
-- Restart Home-Assistant.
-
-### Usage
-To use this component in your installation, add the following to your `configuration.yaml` file:
-
-```yaml
-# Example configuration.yaml entry
-
-climate:
-  - platform: toon_climate
-    name: Toon Thermostat
-    host: IP_ADDRESS
-    port: 10080
-    scan_interval: 10
-```
-
-Configuration variables:
-
-- **name** (*Optional*): Name of the device. (default = 'Toon Thermostat')
-- **host** (*Required*): The hostname or IP address on which the Toon can be reached.
-- **port** (*Optional*): Port used by your Toon. (default = 10080)
-- **scan_interval** (*Optional*): Number of seconds between polls. (default = 60)
-
-### Screenshot
-
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon.png "Screenshot")
-
-TOON with simple-thermostat in Lovelace
-
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-simple.png "TOON simple-thermostat Screenshot")
-
-Using this card:
-```
-   - type: 'custom:simple-thermostat'
-     entity: climate.toon
-     control:
-       - preset
-```
 
 ## TOON Smart Meter sensor component
 
