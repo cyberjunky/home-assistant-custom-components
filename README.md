@@ -574,43 +574,8 @@ For example you can send them as tweets, to do so place this in your `automation
 ## arp-scan Device Tracker component
 
 This component tracks devices using the arp-scan command, it's very fast, and reasonably accurate.
-
-### Installation
-
-- Copy directory `arpscan_tracker` to your `<config dir>/custom_components` directory.
-- Install the arp-scan command and set it's sticky bit, so it can be run as root.
-
-  **NOTE: This is not needed on Hass.io, it contains the arp-scan command already.**
-```
-$ sudo apt-get install arp-scan
-$ sudo chmod +s /usr/bin/arp-scan
-```
-- Configure with config below.
-- Restart Home-Assistant.
-
-### Usage
-To use this component in your installation, add the following to your `configuration.yaml` file:
-
-```yaml
-# Example configuration.yaml entry
-
-device_tracker:
-  - platform: arpscan_tracker
-    interval_seconds: 15
-    consider_home: 60
-    track_new_devices: true
-    exclude:
-      - 192.168.178.1
-      - 192.168.178.3
-```
-
-Configuration variables:
-
-- **interval_seconds** (*Optional*) Seconds between each scan for new devices. (default = 12)
-- **consider_home** (*Optional*): Seconds to marking device as 'not home' after not being seen (default = 180)
-- **track_new_device** (*Optional*): If new discovered devices are tracked by default. (default = True)
-- **exclude** (*Optional*): List of IP addresses to skip tracking for.
-- **scan_options** (*Optional*): Configurable scan options for arp-scan. (default is `-l -g -t1 -q`)
+It lives in it's own HACS compatible repository now.
+https://github.com/cyberjunky/home-assistant-arpscan_tracker
 
 
 ## Plugwise component
