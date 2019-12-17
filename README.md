@@ -6,93 +6,24 @@ Some of my custom components for home-assistant. (http://www.home-assistant.io)
 
 Component Overview
 ------------------
-  * [TOON Thermostat climate component](#toon-thermostat-climate-component)
-  * [TOON Smart Meter sensor component](#toon-smart-meter-sensor-component)
-  * [TOON Boiler Status sensor component](#toon-boiler-status-sensor-component)
+Moved to own repository and HACS compatible:
+  * [TOON Thermostat Climate Component](https://github.com/cyberjunky/home-assistant-toon_climate)
+  * [TOON Smart Meter Sensor Component](https://github.com/cyberjunky/home-assistant-toon_smartmeter)
+  * [TOON Boiler Status Sensor Component](https://github.com/cyberjunky/home-assistant-toon_boilerstatus)
+  * [P2000 Emergency Services Component](https://github.com/cyberjunky/home-assistant-p2000)
+  * [Arpscan Device Tracker Component](https://github.com/cyberjunky/home-assistant-arpscan_tracker)
+  * [Plugwise Component](https://github.com/cyberjunky/home-assistant-plugwise)
+  * [HVC Groep Garbage Collect Sensor Component](https://github.com/cyberjunky/home-assistant-hvcgroep)
+
+To be worked on:
   * [SolarPortal sensor component](#solarportal-sensor-component)
   * [Battefield1 Stats component](#battefield1-stats-component)
   * [P2000 Emergency Services component](#p2000-emergency-services-component)
   * [Fritzbox_callmonitor Notification example](#fritzbox_callmonitor-notification-example)
   * [Remarks component](#remarks-component)
-  * [Arpscan Device Tracker component](#arpscan-device-tracker-component)
-  * [Plugwise component](#plugwise-component)
   * [TheThingsNetwork Gateway status component](#thethingsnetwork-gateway-status-component)
-  * [HVCGroep Garbage Collect sensor component](#hvcgroep-garbage-collect-sensor-component)
   * [Volkswagen Carnet component](#volkswagen-carnet-component)
  
-## TOON Thermostat Climate Component
-This component provides a climate device for rooted TOON thermostats.
-It lives in it's own HACS compatible repository now.
-https://github.com/cyberjunky/home-assistant-toon_climate
-
-
-## TOON Smart Meter Sensor Component
-This component reads and displays sensor values from the meteradapter connected to a rooted TOON thermostat.
-It lives in it's own HACS compatible repository now.
-https://github.com/cyberjunky/home-assistant-toon_smartmeter
-
-
-## TOON Boiler Status Sensor Component
-
-NOTE: This component only works with rooted TOON devices. And installed BoilerStatus app via ToonStore.  
-
-It reads OpenTherm Boiler data from your TOON, gathered by the thermostat adapter.
-
-### Installation
-
-- Copy directory `toon_boilerstatus` to your `<config dir>/custom_components` directory.
-- Configure with config below.
-- Restart Home-Assistant.
-
-### Usage
-To use this component in your installation, add the following to your `configuration.yaml` file:
-
-```yaml
-# Example configuration.yaml entry
-
-sensor:
-  - platform: toon_boilerstatus
-    host: IP_ADDRESS
-    port: 10080
-    scan_interval: 10
-    resources:
-      - boilersetpoint
-      - boilerintemp
-      - boilerouttemp
-      - boilerpressure
-      - boilermodulationlevel
-      - roomtemp
-      - roomtempsetpoint
-```
-
-Configuration variables:
-
-- **host** (*Required*): The hostname or IP address on which the TOON can be reached.
-- **port** (*Optional*): Port used by your TOON. (default = 10080)
-- **scan_interval** (*Optional*): Number of seconds between polls. (default = 10)
-- **resources** (*Required*): This section tells the component which values to display and monitor.
-
-By default the values are displayed as badges.
-
-If you want them grouped instead of having the separate sensor badges, you can use this in your `groups.yaml`:
-
-```yaml
-# Example groups.yaml entry
-
-Boiler Status:
-  - sensor.toon_boiler_intemp
-  - sensor.toon_boiler_outtemp
-  - sensor.toon_boiler_setpoint
-  - sensor.toon_boiler_pressure
-  - sensor.toon_boiler_modulation
-  - sensor.toon_room_temp
-  - sensor.toon_room_temp_setpoint
-```
-
-### Screenshots
-
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-boilerstatus.png "Screenshot Toon Boiler Status")
-
 
 ## SolarPortal sensor component
 
@@ -211,13 +142,6 @@ Configuration variables:
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/bf1stats-badge.png "BF1Stats Badge")
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/bf1stats-graph.png "BF1Stats Graph")
 
-
-## P2000 Emergency Services component
-This component tracks P2000 emergency events in The Netherlands.
-It lives in it's own HACS compatible repository now.
-https://github.com/cyberjunky/home-assistant-p2000
-
-
 ## Fritzbox_callmonitor Notification example
 
 This is not a new component but an example automation config useable together with the fritzbox_callmonitor component.
@@ -321,21 +245,6 @@ For example you can send them as tweets, to do so place this in your `automation
       message: "{{ trigger.event.data.text }}"
 ```
 
-
-## Arpscan Device Tracker component
-
-This component tracks devices using the arp-scan command, it's very fast, and reasonably accurate.
-It lives in it's own HACS compatible repository now.
-https://github.com/cyberjunky/home-assistant-arpscan_tracker
-
-
-## Plugwise component
-
-This component can read values from and control Plugwise circles and plugs.
-It lives in it's own HACS compatible repository now.
-https://github.com/cyberjunky/home-assistant-plugwise
-
-
 ## TheThingsNetwork Gateway status component
 
 This component can read status values from a local TTN Gateway.
@@ -409,14 +318,6 @@ TTN Gateway:
 
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/ttn-gw-badges.png "Screenshot TTN Gateway Badges")
 ![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/ttn-gw-status.png "Screenshot TTN Gateway Status")
-
-
-## HVCGroep Garbage Collect sensor component
-
-Gets garbage pickup dates straight from HVC Groep's rest API.
-It lives in it's own HACS compatible repository now.
-https://github.com/cyberjunky/home-assistant-hvcgroep
-
 
 ## Volkswagen Carnet component
 
