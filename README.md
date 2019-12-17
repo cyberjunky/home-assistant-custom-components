@@ -14,7 +14,7 @@ Component Overview
   * [P2000 Emergency Services component](#p2000-emergency-services-component)
   * [Fritzbox_callmonitor Notification example](#fritzbox_callmonitor-notification-example)
   * [Remarks component](#remarks-component)
-  * [arp-scan Device Tracker component](#arp-scan-device-tracker-component)
+  * [Arpscan Device Tracker component](#arpscan-device-tracker-component)
   * [Plugwise component](#plugwise-component)
   * [TheThingsNetwork Gateway status component](#thethingsnetwork-gateway-status-component)
   * [HVCGroep Garbage Collect sensor component](#hvcgroep-garbage-collect-sensor-component)
@@ -571,7 +571,7 @@ For example you can send them as tweets, to do so place this in your `automation
 ```
 
 
-## arp-scan Device Tracker component
+## Arpscan Device Tracker component
 
 This component tracks devices using the arp-scan command, it's very fast, and reasonably accurate.
 It lives in it's own HACS compatible repository now.
@@ -580,57 +580,9 @@ https://github.com/cyberjunky/home-assistant-arpscan_tracker
 
 ## Plugwise component
 
-This component can read values from and control Plugwise circles/plugs.
-
-Although it works rather well, it is still work in progress, it uses the older python-plugwise code.
-And it must be made async so it plays nice when it cannot reach a plug it queries resulting in timeouts.
-
-### Installation
-
-- Copy directory `plugwise` to your `<config dir>/custom-components` directory.
-- It has as dependency the 'plugwise' module from PyPi, but it will be installed automatically.
-- Configure with config below.
-- Restart Home-Assistant.
-
-### Usage
-To use this component in your installation, add the following to your `configuration.yaml` file:
-
-```yaml
-# Example configuration.yaml entry
-
-switch:
-  - platform: plugwise
-    port: /dev/ttyUSB0
-    circles:
-      CirclePlus: 000D6F000023711C
-      Koelkast: 000D6F00001C8F33
-```
-
-Configuration variables:
-
-- **port** (*Optional*): Port used by your plugwise stick. (default = /dev/ttyUSB0)
-- **circles** (*Required*): This section tells the component which mac addresses your plugs have and which device names you want to use.
-
-If you want to graph power consumption values you can convert the attribute of the switch into a sensor using template platform like so:
-
-
-```yaml
-# Example sensor.yaml entry
-
-- platform: template
-  sensors:
-    circleplus_power_usage:
-      friendly_name: "CirclePlus Power Usage"
-      unit_of_measurement: 'Watt'
-      value_template: "{{ states.switch.circleplus.attributes.current_consumption }}"
-```
-NOTE: works in Hass.io
-
-### Screenshots
-
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/plugwise-switches.png "Screenshot Plugwise Switches")
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/plugwise-switch.png "Screenshot Plugwise Switch")
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/plugwise-graph.png "Screenshot Plugwise Graph")
+This component can read values from and control Plugwise circles and plugs.
+It lives in it's own HACS compatible repository now.
+https://github.com/cyberjunky/home-assistant-plugwise
 
 
 ## TheThingsNetwork Gateway status component
