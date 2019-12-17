@@ -14,13 +14,14 @@ Moved to own repository and HACS compatible:
   * [Arpscan Device Tracker Component](https://github.com/cyberjunky/home-assistant-arpscan_tracker)
   * [Plugwise Component](https://github.com/cyberjunky/home-assistant-plugwise)
   * [HVC Groep Garbage Collect Sensor Component](https://github.com/cyberjunky/home-assistant-hvcgroep)
-
+  * [TheThingsNetwork Gateway Status Sensor Component](https://github.com/cyberjunky/home-assistant-ttn_gateway)
+  
 To be worked on:
   * [SolarPortal sensor component](#solarportal-sensor-component)
   * [Battefield1 Stats component](#battefield1-stats-component)
   * [Fritzbox_callmonitor Notification example](#fritzbox_callmonitor-notification-example)
   * [Remarks component](#remarks-component)
-  * [TheThingsNetwork Gateway status component](#thethingsnetwork-gateway-status-component)
+
   * [Volkswagen Carnet component](#volkswagen-carnet-component)
  
 
@@ -243,80 +244,6 @@ For example you can send them as tweets, to do so place this in your `automation
     data_template:
       message: "{{ trigger.event.data.text }}"
 ```
-
-## TheThingsNetwork Gateway status component
-
-This component can read status values from a local TTN Gateway.
-
-### Installation
-
-- Copy directory `ttn_gateway` to your `<config dir>/custom-components` directory.
-- Configure with config below.
-- Restart Home-Assistant.
-
-### Usage
-To use this component in your installation, add the following to your `configuration.yaml` file:
-
-```yaml
-# Example configuration.yaml entry
-
-sensor:
-  - platform: ttn_gateway
-    host: IP_ADDRESS
-    scan_interval: 10
-    resources:
-      - gateway
-      - hwversion
-      - blversion
-      - fwversion
-      - uptime
-      - connected
-      - interface
-      - ssid
-      - activationlocked
-      - configured
-      - region
-      - gwcard
-      - brokerconnected
-      - packetsup
-      - packetsdown
-      - estore
-```
-
-Configuration variables:
-
-- **host** (*Required*): The IP address of the gateway you want to monitor.
-- **scan_interval** (*Optional*): Number of seconds between polls. (default = 30)
-- **resources** (*Required*): This section tells the component which values to monitor.
-
-If you want them grouped instead of having the separate sensor badges, you can use this in your `groups.yaml`:
-
-```yaml
-# Example groups.yaml entry
-
-TTN Gateway:
-  - sensor.ttn_gw_hardware_version
-  - sensor.ttn_gw_bootloader_version
-  - sensor.ttn_gw_firmware_version
-  - sensor.ttn_gw_uptime
-  - sensor.ttn_gw_connected
-  - sensor.ttn_gw_interface
-  - sensor.ttn_gw_gateway
-  - sensor.ttn_gw_ssid
-  - sensor.ttn_gw_activation_locked
-  - sensor.ttn_gw_configured
-  - sensor.ttn_gw_region
-  - sensor.ttn_gw_gateway_card
-  - sensor.ttn_gw_broker_connected
-  - sensor.ttn_gw_packets_up
-  - sensor.ttn_gw_packets_down
-  - sensor.ttn_gw_external_storage
-```
-
-### Screenshots
-
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/ttn-gw-badges.png "Screenshot TTN Gateway Badges")
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/ttn-gw-status.png "Screenshot TTN Gateway Status")
 
 ## Volkswagen Carnet component
 
