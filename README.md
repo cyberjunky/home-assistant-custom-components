@@ -20,94 +20,19 @@ Component Overview
   * [HVCGroep Garbage Collect sensor component](#hvcgroep-garbage-collect-sensor-component)
   * [Volkswagen Carnet component](#volkswagen-carnet-component)
  
-## TOON Thermostat climate component
+## TOON Thermostat Climate Component
 This component provides a climate device for rooted TOON thermostats.
 It lives in it's own HACS compatible repository now.
 https://github.com/cyberjunky/home-assistant-toon_climate
 
 
-## TOON Smart Meter sensor component
-
-NOTE: This component only works with rooted TOON devices.
-
-It reads Smart Meter data from your TOON, gathered by the meteradapter.
-
-### Installation
-
-- Copy directory `toon_smartmeter` to your `<config dir>/custom_components` directory.
-- Configure with config below.
-- Restart Home-Assistant.
-
-### Usage
-To use this component in your installation, add the following to your `configuration.yaml` file:
-
-```yaml
-# Example configuration.yaml entry
-
-sensor:
-  - platform: toon_smartmeter
-    host: IP_ADDRESS
-    port: 10080
-    scan_interval: 10
-    resources:
-      - gasused
-      - gasusedcnt
-      - elecusageflowpulse
-      - elecusagecntpulse
-      - elecusageflowlow
-      - elecusagecntlow
-      - elecusageflowhigh
-      - elecusagecnthigh
-      - elecprodflowlow
-      - elecprodcntlow
-      - elecprodflowhigh
-      - elecprodcnthigh
-      - elecsolar
-      - elecsolarcnt
-      - heat
-```
-
-Configuration variables:
-
-- **host** (*Required*): The hostname or IP address on which the TOON can be reached.
-- **port** (*Optional*): Port used by your TOON. (default = 10080)
-- **scan_interval** (*Optional*): Number of seconds between polls. (default = 10)
-- **resources** (*Required*): This section tells the component which values to display, you can leave out the elecprod values if your don't generate power and the elecusage*pulse types if you use the P1 connection.
-
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-badges.png "Toon SmartMeter Badges")
-
-If you want them grouped instead of having the separate sensor badges, you can use this in your `groups.yaml`:
-
-```yaml
-# Example groups.yaml entry
-
-Smart meter:
-  - sensor.toon_gas_used_last_hour
-  - sensor.toon_gas_used_cnt
-  - sensor.toon_power_use_cnt
-  - sensor.toon_power_use
-  - sensor.toon_p1_power_prod_low
-  - sensor.toon_p1_power_prod_high
-  - sensor.toon_p1_power_prod_cnt_low
-  - sensor.toon_p1_power_prod_cnt_high
-  - sensor.toon_p1_power_use_cnt_pulse
-  - sensor.toon_p1_power_use_cnt_low
-  - sensor.toon_p1_power_use_cnt_high
-  - sensor.toon_p1_power_use_low
-  - sensor.toon_p1_power_use_high
-  - sensor.toon_p1_power_solar
-  - sensor.toon_p1_power_solar_cnt
-  - sensor.toon_p1_heat
-```
-
-### Screenshots
-
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter.png "Screenshot Toon SmartMeter")
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-graph-gasused.png "Graph Gas Used")
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/toon-smartmeter-graph-poweruselow.png "Graph Power Use Low")
+## TOON Smart Meter Sensor Component
+This component reads and displays sensor values from the meteradapter connected to a rooted TOON thermostat.
+It lives in it's own HACS compatible repository now.
+https://github.com/cyberjunky/home-assistant-toon_smartmeter
 
 
-## TOON Boiler Status sensor component
+## TOON Boiler Status Sensor Component
 
 NOTE: This component only works with rooted TOON devices. And installed BoilerStatus app via ToonStore.  
 
