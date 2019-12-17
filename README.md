@@ -18,7 +18,6 @@ Moved to own repository and HACS compatible:
 To be worked on:
   * [SolarPortal sensor component](#solarportal-sensor-component)
   * [Battefield1 Stats component](#battefield1-stats-component)
-  * [P2000 Emergency Services component](#p2000-emergency-services-component)
   * [Fritzbox_callmonitor Notification example](#fritzbox_callmonitor-notification-example)
   * [Remarks component](#remarks-component)
   * [TheThingsNetwork Gateway status component](#thethingsnetwork-gateway-status-component)
