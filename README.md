@@ -4,9 +4,7 @@
 
 Some of my custom components for home-assistant. (http://www.home-assistant.io)
 
-Component Overview
-------------------
-Moved to own repository and HACS compatible:
+## Moved to it's own repository and made HACS compatible:
   * [TOON Thermostat Climate Component](https://github.com/cyberjunky/home-assistant-toon_climate)
   * [TOON Smart Meter Sensor Component](https://github.com/cyberjunky/home-assistant-toon_smartmeter)
   * [TOON Boiler Status Sensor Component](https://github.com/cyberjunky/home-assistant-toon_boilerstatus)
@@ -17,14 +15,16 @@ Moved to own repository and HACS compatible:
   * [TheThingsNetwork Gateway Status Sensor Component](https://github.com/cyberjunky/home-assistant-ttn_gateway)
   * [Google Fit Sensor Component](https://github.com/cyberjunky/home-assistant-google_fit)
 
-To be worked on:
-  * [SolarPortal sensor component](#solarportal-sensor-component)
-  * [Battefield1 Stats component](#battefield1-stats-component)
+## To be worked on:
+
   * [Fritzbox_callmonitor Notification example](#fritzbox_callmonitor-notification-example)
   * [Remarks component](#remarks-component)
-
   * [Volkswagen Carnet component](#volkswagen-carnet-component)
- 
+  
+## Deprecated:
+
+  * [SolarPortal sensor component](#solarportal-sensor-component)
+  * [Battefield1 Stats component](#battefield1-stats-component)
 
 ## SolarPortal sensor component
 
@@ -44,104 +44,15 @@ NOTE: API seem to have changed, need new reverse engineering!
 > https://itunes.apple.com/cn/app/id1246117091
 
 > Thank you so much for your notice.
-
 > Omnik Team
-
-There are several solarpower portals storing you power generation data using the same API.
-You can query the information uploaded by your solarpanels.
-I have a Omnik inverter and so I'm using it with omnikportal, only one I tested it with.
-
-### Installation
-
-- Copy directory `solarportal` to your `<config dir>/custom_components` directory.
-- Configure with config below.
-- Restart Home-Assistant.
-
-### Usage
-To use this component in your installation, add the following to your `configuration.yaml` file:
-
-```yaml
-# Example configuration.yaml entry
-
-sensor:
-  - platform: solarportal
-    host: www.omnikportal.com
-    port: 10000
-    username: PORTAL_LOGIN
-    password: PORTAL_PASSWORD
-    scan_interval: 30
-    resources:
-      - actualpower
-      - energytoday
-      - energytotal
-      - incometoday
-      - incometotal
-```
-
-Configuration variables:
-
-- **host** (*Required*): The website url of the portal to query for the list below.
- * [www.omnikportal.com](http://www.omnikportal.com)
- * [www.ginlongmonitoring.com](http://www.ginlongmonitoring.com)
- * [log.trannergy.com](http://log.trannergy.com)
- * [www.solarmanpv.com](http://www.solarmanpv.com)
-- **port** (*Optional*): Port in use by the portal API. (default = 10000)
-- **username** (*Required*): The login name for the website, normally this is an email address.
-- **password** (*Required*): Your password for the website.
-- **scan_interval** (*Optional*): Number of seconds between polls. (default = 30)
-- **resources** (*Required*): This section tells the component which values to display.
-
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal-badges.png "SolarPortal Badges")
-
-If you want them grouped instead of having the separate sensor badges, you can use this in your `groups.yaml`:
-
-```yaml
-# Example groups.yaml entry
-
-OmnikPortal Solar:
-  - sensor.solar_actual_power
-  - sensor.solar_energy_today
-  - sensor.solar_energy_total
-  - sensor.solar_income_today
-  - sensor.solar_income_total
-```
-
-### Screenshots
-
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal.png "Screenshot SolarPortal")
-
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal-graph.png "Graph Actual Power")
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/solarportal-graph-income.png "Graph Total Income")
 
 
 ## Battefield1 Stats component
 
-I'm playing BF1 sometimes, and notices there was an bf1stats api available, so I wrote a small component to query and log the number of online players.
-I could have done this with a few rest sensor type sensors, but I didn't find out a way to calculate a total count this way, from all the different platform counters.
-So this is what this component does and combine them into one sensor.
+NOTE: Network is shutdown.
 
-### Installation
+> As of October 27, 2019 the P-Stats Network has shutdown.
 
-- Copy directory `bf1stats` to your `<config dir>/custom_components` directory.
-- Configure with config below.
-- Restart Home-Assistant.
-
-### Usage
-To use this component in your installation, add the following to your `configuration.yaml` file:
-
-```yaml
-# Example configuration.yaml entry
-
-sensor:
-  - platform: bf1stats
-```
-
-Configuration variables:
-
-- **None**
-
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/bf1stats-badge.png "BF1Stats Badge")
-![alt text](https://raw.githubusercontent.com/cyberjunky/home-assistant-custom-components/master/screenshots/bf1stats-graph.png "BF1Stats Graph")
 
 ## Fritzbox_callmonitor Notification example
 
