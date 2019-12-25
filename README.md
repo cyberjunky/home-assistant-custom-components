@@ -5,6 +5,8 @@
 Some of my custom components for home-assistant. (http://www.home-assistant.io)
 
 ## Moved to it's own repository and made HACS compatible:
+You can find them in HACS under 'integrations'
+
   * [TOON Thermostat Climate Component](https://github.com/cyberjunky/home-assistant-toon_climate)
   * [TOON Smart Meter Sensor Component](https://github.com/cyberjunky/home-assistant-toon_smartmeter)
   * [TOON Boiler Status Sensor Component](https://github.com/cyberjunky/home-assistant-toon_boilerstatus)
@@ -13,7 +15,7 @@ Some of my custom components for home-assistant. (http://www.home-assistant.io)
   * [Plugwise Component](https://github.com/cyberjunky/home-assistant-plugwise)
   * [HVC Groep Garbage Collect Sensor Component](https://github.com/cyberjunky/home-assistant-hvcgroep)
   * [TheThingsNetwork Gateway Status Sensor Component](https://github.com/cyberjunky/home-assistant-ttn_gateway)
-  * [Google Fit Sensor Component](https://github.com/cyberjunky/home-assistant-google_fit)
+
 
 ## To be worked on:
 
