@@ -15,7 +15,8 @@ Moved to own repository and HACS compatible:
   * [Plugwise Component](https://github.com/cyberjunky/home-assistant-plugwise)
   * [HVC Groep Garbage Collect Sensor Component](https://github.com/cyberjunky/home-assistant-hvcgroep)
   * [TheThingsNetwork Gateway Status Sensor Component](https://github.com/cyberjunky/home-assistant-ttn_gateway)
-  
+  * [Google Fit Sensor Component](https://github.com/cyberjunky/home-assistant-google_fit)
+
 To be worked on:
   * [SolarPortal sensor component](#solarportal-sensor-component)
   * [Battefield1 Stats component](#battefield1-stats-component)
